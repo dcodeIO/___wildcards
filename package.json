@@ -1,0 +1,37 @@
+{
+    "name": "wildcardsgame",
+    "version": "0.1.0-12",
+    "author": "Daniel Wirtz <dcode@dcode.io>",
+    "description": "A party game for horrible people.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dcodeIO/wildcardsgame.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dcodeIO/wildcardsgame/issues"
+    },
+    "keywords": [
+        "game",
+        "socket.io",
+        "express",
+        "wildcards",
+        "cards"
+    ],
+    "dependencies": {
+        "express": ">=3.1.0",
+        "socket.io": ">=0.9.13"
+    },
+    "license": "Creative Commons BY-NC-SA 2.0",
+    "engines": {
+        "node": ">=0.8"
+    },
+    "scripts": {
+        "build": "node scripts/build.js",
+        "start": "node scripts/start.js"
+    },
+    "subdomain": "wildcardsgame",
+    "domains": [
+        "wildcardsgame.com",
+        "www.wildcardsgame.com"
+    ]
+}

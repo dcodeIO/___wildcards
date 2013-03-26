@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>___wildcards - A party game for horrible people.</title>
+<meta name="description" content="The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card." />
+<meta name="viewport" content="width=1024, initial-scale=1.0" />
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="assets/css/___.css" rel="stylesheet" />
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+<!-- Static header -->
+<div id="header" class="header">
+    <div class="container">
+        <h1>___wildcards</h1>
+        <h2 id="lang-title">A party game for horrible people.</h2>
+    </div>
+</div>
+
+<!-- Content pages -->
+<div class="content">
+    
+    <!-- Global alert on top -->
+    <div id="alert" class="container alert alert-block alert-error fade in">
+        <strong id="alert-title">Warning!</strong> <span id="alert-message">Best check yo self, you're not looking too good.</span>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    
+    <!-- Teaser -->
+    <div id="teaser" class="container">
+        <h3 id="lang-desc">The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.</h3>
+
+        <div class="cards">
+            <div class="card card-black" id="lang-frontcard1">When my girlfriend/boyfriend wants _____ , I have to use _____ .</div>
+            <div class="card card-white" id="lang-frontcard2">A flesh wound</div>
+            <div class="card card-white" id="lang-frontcard3">A snapping turtle biting the tip of your penis</div>
+        </div>
+        <div style="text-align: center; padding-top: 50px">
+            <a class="btn btn-large dropdown-toggle" href="#" onclick="client.selectLanguage(); return false"><i class="icon-globe" style="margin-top: 3px"></i> <span id="lang-selectlang">Select your language</span></a> &nbsp;
+            <a class="btn btn-large btn-primary" href="#" onclick="client.loginAndCreate(); return false"><img src="assets/img/fb-icon.png" style="margin-top: -3px"/> <span id="lang-login">Play with your friends!</span></a>
+        </div>
+    </div>
+    
+    <!-- Game view -->
+    <div id="game" class="container" style="display: none">
+        <div id="game-players" class="players">
+        </div>
+        <div id="game-invite" class="buttons">
+            <a class="btn" href="#" onclick="client.select(); return false" id="lang-invitemore">Invite more friends</a> &nbsp;
+            <span id="lang-gamelink">Direct game link (for the case):</span> <input id="game-link" type="text" readonly="true" onclick="this.select()" style="margin-bottom: 0; width: 400px"/>
+        </div>
+        <div id="game-cards">
+            <!-- Updated dynamically. Usually contains one black card or all players' selections. -->
+            <div class="cards">
+                <div class="card card-black" id="lang-gamecard1">How many friends does it take to play? _____ . What's recommended for the full fun? _____ .</div>
+                <div class="card card-white" id="lang-gamecard2">Me + one</div>
+                <div class="card card-white" id="lang-gamecard3">Me + at least two</div>
+             </div>
+        </div>
+        <div class="buttons">
+            <a id="game-button" class="btn btn-large" disabled="true" href="#" onclick="return false">Waiting for more players...</a>
+        </div>
+        <div id="game-mycards"><!-- Updated dynamically. Contains the local player's cards. --></div>
+        
+        <!-- Game chat -->
+        <div id="game-chat">
+            <div id="game-chat-messages"></div>
+            <div id="game-chat-input">
+                <form onsubmit="client.chat(); return false" autocomplete="off"><input type="text" id="chat-input" placeholder="Type something..." /></form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Static footer -->
+<div class="footer">
+    <p>
+        Based on the original <a target="_blank" href="http://www.cardsagainsthumanity.com">Cards Against Humanity</a>&trade;.
+        Creative Commons BY-NC-SA 2.0.
+        Created by <a target="_blank" href="http://dcode.io">dcode.io</a> just for the thrill of it.
+        <a target="_blank" href="https://github.com/dcodeIO/wildcardsgame">Contribute!</a>
+    </p>
+</div>
+
+<!-- Language select modal -->
+<div id="selectlanguage" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="lang-selectlanguage">Select your language</h3>
+        <div class="modal-body">
+            <div id="selectlanguage-list"></div>
+        </div>
+        <div class="modal-footer">
+            <span class="text">Can't find your language? <a target="_blank" href="http://github.com/dcodeIO/wildcardsgame">Contribute!</a></span>
+        </div>
+    </div>
+</div>
+
+<!-- Friend select dialog -->
+<div id="selectfriends" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="lang-selectfriendstitle">Select friends to play with</h3>
+    </div>
+    <div class="modal-body">
+        <div id="selectfriends-list"></div>
+    </div>
+    <div class="modal-footer">
+        <span class="text"><span id="selectfriends-left">8</span> slots left</span>
+        <a id="selectfriends-button" href="#" class="btn btn-primary">Invite and play!</a>
+    </div>
+</div>
+
+<!-- Audio -->
+<audio id="sound-message" preload="auto">
+    <source src="assets/audio/message.ogg" type="audio/ogg" />
+    <source src="assets/audio/message.mp3" type="audio/mpeg" />
+    <source src="assets/audio/message.wav" type="audio/wav" />
+</audio>
+<audio id="sound-nudge" preload="auto">
+    <source src="assets/audio/nudge.ogg" type="audio/ogg" />
+    <source src="assets/audio/nudge.mp3" type="audio/mpeg" />
+    <source src="assets/audio/nudge.wav" type="audio/wav" />
+</audio>
+
+<!-- Bootstrap -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<!-- Socket.io -->
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- ___wildcards -->
+<script src="/assets/js/___.js"></script>
+
+<!-- Facebook SDK -->
+<div id="fb-root"></div>
+<script>
+window.fbAsyncInit = function() {
+    FB.init({
+        appId      : '162965230532563',
+        channelUrl : location.protocol+'//'+location.host+'/assets/channel.html',
+        status     : false,
+        cookie     : false,
+        xfbml      : false
+    });
+    client.init();
+};
+(function(d, debug){
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+    ref.parentNode.insertBefore(js, ref);
+}(document, /*debug*/ false));
+</script>
+</body>
+</html>

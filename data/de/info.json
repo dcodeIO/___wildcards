@@ -1,0 +1,67 @@
+{
+    "name": "Deutsch",
+    "translations": {
+        "A party game for horrible people." :
+            "Ein Party-Spiel für makabere Leute.",
+        "The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.":
+            "Das Spiel ist einfach: Pro Runde stellt ein Spieler eine Frage von einer schwarzen Karte und alle anderen beantworten sie mit ihrer lustigsten weißen Karte. Der Spieler, der die schwarze Karte gespielt hat, entscheidet dann, welche Antwort die spaßigste war.",
+        "When my girlfriend/boyfriend wants _____ , I have to use _____ .":
+            "Wenn meine Freundin/mein Freund _____ möchte, muss ich _____ verwenden.",
+        "A flesh wound":
+            "Eine Fleischwunde.",
+        "A snapping turtle biting the tip of your penis":
+            "Eine schnappende Schildkröte, die die Spitze aus deinem Penis beißt.",
+        "Select your language":
+            "Wähle deine Sprache",
+        "Play with your friends!":
+            "Spiele mit deinen Freunden!",
+        "Invite your horrible friends":
+            "Lade deine makaberen Freunde ein",
+        "Invite more friends":
+            "Mehr Freunde einladen",
+        "Direct game link (for the case):":
+            "Direkter Spiel-Link (für den Fall):",
+        "How many friends does it take to play? _____ . What's recommended for the full fun? _____ .":
+            "Wie viele Freunde braucht's zum Spielen? _____ . Was wird für den vollen Spaß empfohlen? _____ .",
+        "Me + one":
+            "Mich + einen.",
+        "Me + at least two":
+            "Ich + mindestens zwei.",
+        "Waiting for more players...":
+            "Warte auf mehr Spieler...",
+        "Start the game":
+            "Spiel starten",
+        "Pick a Black Card!":
+            "Ziehe eine schwarze Karte!",
+        "%name% plays:":
+            "%name% spielt:",
+        "Play these!":
+            "Diese Karten spielen!",
+        "You chose!":
+            "Du wählst aus!",
+        "What's the most horrible?":
+            "Was ist am makabersten?",
+        "%name% wins!":
+            "%name% gewinnt!",
+        "Waiting for %name%...":
+            "Warte auf %name%...",
+        "Pick %n%!":
+            "Wähle %n%!",
+        "Waiting for other players...":
+            "Warte auf andere Spieler...",
+        "Waiting for the end of the world...":
+            "Warte auf das Ende der Welt...",
+        "Type something...":
+            "Schreibe etwas...",
+        "Sorry":
+            "Sorry",
+        "You are no more invited to this game. Contact the game host to invite you again or create a new game instead!":
+            "Du bist zu diesem Spiel nicht mehr eingeladen. Bitte den Spielleiter, dich erneut einzuladen, oder erstelle stattdessen ein neues Spiel!",
+        "This game does no longer exist. Create a new one instead!":
+            "Dieses Spiel existiert nicht mehr. Erstelle stattdessen ein neues!",
+        "You cannot join this game for some ridiculous reason. Create a new one instead!":
+            "Du kannst dieses Spiel aus einem lächerlichen Grund nicht betreten. Erstelle stattdessen ein neues!",
+        "Come on, let's play ___wildcards! A party game for horrible people.":
+            "Komm schon, lass uns ___wildcards spielen! Ein Party-Spiel für makabere Leute."
+    }
+}
