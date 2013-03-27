@@ -33,15 +33,17 @@ body {
 .social .box { display: inline-block; vertical-align: top; margin-left: 10px; margin-right: 10px; text-align: center; }
 .social a.donate_button { opacity: 1.0; display: inline-block; background: url(../img/btn-donate.png); width:64px; height: 18px; margin-left: 10px; margin-top: -1px; }
 .social a.donate_button:hover { opacity: 0.8; }
+#onlinecount { display: inline-block; font-size: 11px; padding: 0 5px 0 5px; background: #fff; border: 1px solid #ddd; position: relative; top: -3px; border-radius: 5px; color: #46a546; font-weight: bold; }
 
 .content {
     padding: 20px;
 }
-.footer { text-align: center; padding-top: 30px; color: #999; }
+.footer { text-align: center; padding-top: 30px; }
 
 #alert { display: none; }
 
 /* Cards */
+#game-cards { text-align: center; /* for h3 */ }
 .cards { text-align: center; }
 .cards .card {
     background: transparent;

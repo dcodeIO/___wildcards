@@ -108,6 +108,12 @@ var Server = function(credentials) {
      * @type {Object.<string,Player>}
      */
     this.players = {};
+
+    /**
+     * Number of connected players.
+     * @type {number}
+     */
+    this.nPlayers = 0;
 };
 
 /**
@@ -173,6 +179,9 @@ Server.prototype.start = function() {
     // Accept socket connections
     this.io.sockets.on('connection', this._onConnect.bind(this));
     if (this.ioSecure) this.ioSecure.sockets.on('connection', this._onConnect.bind(this));
+    
+    // Update players online every 60 seconds
+    setTimeout(this.updateOnline.bind(this), 60*1000);
     return this;
 };
 
@@ -186,6 +195,7 @@ Server.prototype._onConnect = function(socket) {
         version: pkg.version,
         languages: this.languages // Array of language descriptions
     });
+    socket.emit("online", ++this.nPlayers);
     socket.on('login', function(data) {
         if (!!data["id"] && !!data["name"]) {
             this.players[data["id"]] = new Player(this, socket, data); // Prints info
@@ -193,6 +203,18 @@ Server.prototype._onConnect = function(socket) {
             console.warn("[Server] Invalid login from "+socket);
         }
     }.bind(this));
+};
+
+/**
+ * Updates the players online count to all connected players.
+ */
+Server.prototype.updateOnline = function() {
+    for (var i=0; i<this.players.length; i++) {
+        var p = this.players[i];
+        if (p.isConnected()) {
+            p.socket.emit("online", this.nPlayers);
+        }
+    }
 };
 
 /**
@@ -225,6 +247,7 @@ Server.prototype.getCards = function(lang) {
  */
 Server.prototype.onDisconnect = function(player) {
     if (player.id && this.players[player.id]) {
+        this.nPlayers--;
         if (player.game !== null) {
             player.game.onDisconnect(player);
         }

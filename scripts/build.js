@@ -81,10 +81,10 @@ function merge(a, b) {
 
 // Process everything in /data
 var files = fs.readdirSync(BASEDIR);
-files.sort(); // Extended on top
 var i18n = {};
 for (var i=0; i<files.length; i++) {
     var lang = files[i];
+    if (lang.charAt(0) == '_') continue; // Skip
     var dirname = BASEDIR+"/"+lang;
     var stat = fs.statSync(dirname);
     if (stat.isDirectory()) {

@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+
+var fs = require("fs");
+
+/**
+ * Parses a language file (.txt).
+ * @param {string} filename
+ * @return {Array.<string>}
+ */
+function parse(filename) {
+    var data = fs.readFileSync(filename);
+    data = (""+data).
+        replace(/\r/g, ""). // NL
+        replace(/[_]+[ ]?/g, "_ "). // Normalize wildcards
+        replace(/^\s+|\s+$/g, ""); // Trim
+    if (data.length == 0) {
+        return [];
+    }
+    return data.split(/\n/g);
+}
+
+if (process.argv.length < 3) {
+    process.stderr.write("wildcardsgame ___dedup (c) 2013 Daniel Wirtz <dcode@dcode.io>\nRemoves duplicate cards above the specified similarity threshold (%).\n");
+    process.stderr.write("\n   Usage: dedup dupFile.txt [threshold=90] > dedupFile.txt\n");
+    process.exit(1);
+}
+
+var filename = process.argv[2];
+var threshold = process.argv.length >= 4 ? parseInt(process.argv[3], 10) : 90;
+if (threshold < 0 || threshold > 100) {
+    process.stderr.write("Invalid threshold: "+threshold+"\n");
+    process.exit(1);
+}
+
+function tokenize(line) {
+    return line.toLowerCase().replace(/[^\w\d]/g, " ").replace(/\s+/, " ").split(" ");
+}
+
+function evaluate(a, b) {
+    var n = 0, r = 0;
+    if (b.length > a.length) {
+        var t = a;
+        a = b;
+        b = t;
+    }
+    for (var i=0; i<a.length;i++) {
+        n++;
+        if (b.indexOf(a[i]) >= 0) r++;
+    }
+    return r*100/n;
+}
+
+var data = parse(filename);
+var comp = [], i;
+for (i=0; i<data.length; i++) {
+    comp.push(tokenize(data[i]));
+}
+var dup = [];
+for (i=0; i<data.length; i++) {
+    if (data[i] === null) continue;
+    var c = comp[i];
+    for (var j=i+1; j<comp.length; j++) {
+        if (comp[j] !== null) {
+            var val = evaluate(c, comp[j]);
+            if (val >= threshold) {
+                process.stderr.write("\n[DUP] "+i+"<-"+j+" ("+val+"%)\n");
+                process.stderr.write("  Keeping "+i+": "+data[i]+"\n");
+                process.stderr.write("  Discarding "+j+": "+data[j]+"\n\n");
+                data[j] = null; // Keep the earlier
+                comp[j] = null;
+                break;
+            }
+        }
+    }
+    process.stdout.write(data[i]+"\n");
+}

@@ -262,6 +262,9 @@ var Client = (function(global, io) {
             }
             if (callback) callback();
         }.bind(this));
+        this.socket.on("online", function(count) {
+            $('#onlinecount').text(this.translate("%n% players online", { "n": count }));
+        }.bind(this));
     };
 
     /**
@@ -810,7 +813,7 @@ var Client = (function(global, io) {
             }
         // Display picked black card
         } else if (this.card !== null) {
-            elem.empty().append($('<div class="cards" />').append('<h3>'+this.translate("%name% plays:", { "name": this.playerInCharge["name"] })+'</h3>').append($('<div class="card card-black">'+nohtml(Client.makeBlack(this.card))+'</div>')));
+            elem.empty().append('<h3>'+this.translate("%name% plays:", { "name": this.playerInCharge["name"] })+'</h3>').append($('<div class="cards" />').append($('<div class="card card-black">'+nohtml(Client.makeBlack(this.card))+'</div>')));
         }
     };
 

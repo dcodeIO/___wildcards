@@ -1,6 +1,6 @@
 {
     "name": "wildcardsgame",
-    "version": "0.2.0-1",
+    "version": "0.3.0",
     "author": "Daniel Wirtz <dcode@dcode.io>",
     "description": "A party game for horrible people.",
     "repository": {
@@ -9,6 +9,9 @@
     },
     "bugs": {
         "url": "https://github.com/dcodeIO/wildcardsgame/issues"
+    },
+    "bin": {
+        "cah2txt": "./bin/cah2txt"
     },
     "keywords": [
         "game",

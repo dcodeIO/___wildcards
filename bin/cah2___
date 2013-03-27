@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+/*
+ wildcardsgame (c) 2013 Daniel Wirtz <dcode@dcode.io>
+
+ Licensed under Creative Commons Attribution-NonCommercial-ShareAlike 2.0
+
+ THE WORK (AS DEFINED BELOW) IS PROVIDED UNDER THE TERMS OF THIS CREATIVE
+ COMMONS PUBLIC LICENSE ("CCPL" OR "LICENSE"). THE WORK IS PROTECTED BY
+ COPYRIGHT AND/OR OTHER APPLICABLE LAW. ANY USE OF THE WORK OTHER THAN AS
+ AUTHORIZED UNDER THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+
+ BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED HERE, YOU ACCEPT AND AGREE TO
+ BE BOUND BY THE TERMS OF THIS LICENSE. THE LICENSOR GRANTS YOU THE RIGHTS
+ CONTAINED HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND
+ CONDITIONS.
+
+ http://creativecommons.org/licenses/by-nc-sa/2.0/
+ */
+
+/**
+ * Parses CAH data to a compatible format.
+ * @param {string} data
+ * @return {string}
+ */
+function parse(data) {
+    data = data+"";
+    if (data.substring(0, 6) != "cards=") {
+        throw(new Error("Invalid cards format: "+data.substring(0,6)+"..."));
+    }
+    data = data.substring(6);
+    data = data.replace(/[_]+[ ]?/g, "_ ");
+    data = data.split("<>");
+    var txt = "";
+    for (var i=0; i<data.length; i++) {
+        txt += data[i]+"\n";
+    }
+    return txt;
+}
+
+// Includes
+var fs = require("fs");
+
+// Argv
+if (process.argv.length < 3) {
+    process.stderr.write("wildcardsgame cah2___ (c) 2013 Daniel Wirtz <dcode@dcode.io>\nConverts original CAH data files to a compatible format.\n");
+    process.stderr.write("\n   Usage: cah2___ [cahFile] > [txtFile]\n");
+    process.exit(1);
+}
+
+// Do it.
+var data = fs.readFileSync(process.argv[2]);
+process.stdout.write(parse(data));
