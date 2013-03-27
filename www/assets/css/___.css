@@ -19,6 +19,7 @@ body {
     background: #000 url(../img/bg.jpg) center center no-repeat;
     color: #fff;
     text-align: left;
+    border-bottom: 2px solid white;
 }
 .header-low {
     height: 150px;
@@ -27,17 +28,11 @@ body {
 .header h1 { display: none; }
 .header h2 { vertical-align: bottom; width: 520px; font-size: 50px; position: absolute; bottom: 25px; margin-left: 60px; line-height: 45px; }
 
-.social {
-    background: #ddd; /* Old browsers */
-    background: -moz-linear-gradient(top, #dddddd 0%, #ffffff 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dddddd), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #dddddd 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #dddddd 0%,#ffffff 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #dddddd 0%,#ffffff 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #dddddd 0%,#ffffff 100%); /* W3C */
-}
+.social { height: 35px; }
 .social .container { text-align: center; padding-top: 6px; padding-bottom: 1px; }
-.social .box { display: inline-block; vertical-align: top; margin-left: 10px; margin-right: 10px; }
+.social .box { display: inline-block; vertical-align: top; margin-left: 10px; margin-right: 10px; text-align: center; }
+.social a.donate_button { opacity: 1.0; display: inline-block; background: url(../img/btn-donate.png); width:64px; height: 18px; margin-left: 10px; margin-top: -1px; }
+.social a.donate_button:hover { opacity: 0.8; }
 
 .content {
     padding: 20px;
@@ -149,6 +144,8 @@ body {
 #game-chat-messages .message .self { color: #0e90d2; }
 #game-chat-input { padding: 5px; height: 30px; background: #eee; }
 #game-chat-input input { width: 275px; }
+#game-chat a.title { padding: 5px; color: #999; display: block; background: #eee; border-bottom: 1px solid #ddd; text-decoration: none; outline: 0; }
+#game-chat a.title:hover { text-decoration: none; color: #000; }
 
 /** Modal footer */
 .modal-footer .text { color: #999; padding-right: 20px; }

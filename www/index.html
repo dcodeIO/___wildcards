@@ -18,12 +18,6 @@
         <h2 id="lang-title">A party game for horrible people.</h2>
     </div>
 </div>
-<div class="social">
-    <div class="container">
-        <div class="box fb-like" data-href="http://www.facebook.com/wildcardsgame" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false"></div>
-        <div class="box"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.wildcardsgame.com" data-hashtags="___">Tweet</a></div>
-    </div>
-</div>
 
 <!-- Content pages -->
 <div class="content">
@@ -72,9 +66,12 @@
         
         <!-- Game chat -->
         <div id="game-chat">
-            <div id="game-chat-messages"></div>
-            <div id="game-chat-input">
-                <form onsubmit="client.chat(); return false" autocomplete="off"><input type="text" id="chat-input" placeholder="Type something..." /></form>
+            <a class="title" href="#" onclick="$('#game-chat-toggle').toggle(); return false"><i class="icon-comment"></i> <span id="lang-chat">Gossip</span></a>
+            <div id="game-chat-toggle">
+                <div id="game-chat-messages"></div>
+                <div id="game-chat-input">
+                    <form onsubmit="client.chat(); return false" autocomplete="off"><input type="text" id="chat-input" placeholder="Type something..." /></form>
+                </div>
             </div>
         </div>
     </div>
@@ -82,6 +79,21 @@
 
 <!-- Static footer -->
 <div class="footer">
+    <div class="social">
+        <div class="container">
+            <div class="box">
+                <div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+                    <a class="addthis_button_facebook"></a>
+                    <a class="addthis_button_twitter"></a>
+                    <a class="addthis_button_google_plusone_share"></a>
+                    <a class="addthis_button_pinterest_share"></a>
+                    <a class="addthis_button_compact"></a><a class="addthis_counter addthis_bubble_style"></a>
+                    <a class="donate_button" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;item_name=%3C3%20___wildcards&amp;business=info@code-emitter.com"></a>
+                </div>
+                <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined"></script>
+            </div>
+        </div>
+    </div>
     <p>
         Based on the original <a target="_blank" href="http://www.cardsagainsthumanity.com">Cards Against Humanity</a>&trade;.
         Creative Commons BY-NC-SA 2.0.

@@ -1090,7 +1090,8 @@ var Client = (function(global, io) {
         $('#lang-selectfriendstitle'),
         $('#selectfriends-button'),
         $('#lang-selectlang'),
-        $('#lang-selectlanguage')
+        $('#lang-selectlanguage'),
+        $('#lang-chat')
     ];
     
     return Client;
