@@ -26,8 +26,20 @@ body {
 }
 .header h1 { display: none; }
 .header h2 { vertical-align: bottom; width: 520px; font-size: 50px; position: absolute; bottom: 25px; margin-left: 60px; line-height: 45px; }
+
+.social {
+    background: #ddd; /* Old browsers */
+    background: -moz-linear-gradient(top, #dddddd 0%, #ffffff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dddddd), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #dddddd 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #dddddd 0%,#ffffff 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #dddddd 0%,#ffffff 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #dddddd 0%,#ffffff 100%); /* W3C */
+}
+.social .container { text-align: center; padding-top: 6px; padding-bottom: 1px; }
+.social .box { display: inline-block; vertical-align: top; margin-left: 10px; margin-right: 10px; }
+
 .content {
-    border-top: 2px solid #fff;
     padding: 20px;
 }
 .footer { text-align: center; padding-top: 30px; color: #999; }
@@ -56,6 +68,20 @@ body {
 .cards a:hover { text-decoration: none; outline: 0; }
 .cards a.card-black:hover { margin-top: -10px; cursor: pointer; }
 .cards a.card-white:hover { background-image: url(../img/white-hover.png); margin-top: -10px; cursor: pointer; }
+
+#selectlanguage-list a {
+    display: inline-block;
+    width: 218px;
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #eee;
+}
+#selectlanguage-list a:hover {
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+}
 
 /** Friend and player lists */
 #selectfriends-list a,

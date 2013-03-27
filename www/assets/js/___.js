@@ -228,6 +228,9 @@ var Client = (function(global, io) {
             log("C->S hello");
             this.socket.emit("hello");
             this.languages = data['languages'];
+            this.languages.sort(function(a,b) {
+                return a["name"] < b["name"] ? -1 : 1;
+            });
             log("Available languages: "+this.languages.length+" languages");
             var blang = global.navigator["userLanguage"] || global.navigator["language"];
             if (blang) {
@@ -968,9 +971,11 @@ var Client = (function(global, io) {
             elem.empty();
             for (var i=0; i<this.languages.length; i++) {
                 var lang = this.languages[i];
-                var le = $('<a class="lang">'+nohtml(lang['name'])+'</a>');
-                le.on("click", this.setLanguage.bind(this, lang['lang'], true));
-                elem.append(le);
+                // if (lang["lang"].length > 2) { // Skip generic
+                    var le = $('<a class="lang"><img class="icon-globe" /> '+nohtml(lang['name'])+'</a>');
+                    le.on("click", this.setLanguage.bind(this, lang['lang'], true));
+                    elem.append(le);
+                // }
             }
             $('#selectlanguage').modal('show');
        }
@@ -983,6 +988,7 @@ var Client = (function(global, io) {
      * @return {string}
      */
     Client.prototype.translate = function(s, replace) {
+        $('#selectlanguage').modal('hide');
         if (this.i18n.translations[s]) {
             s = this.i18n.translations[s];
         }
