@@ -246,16 +246,14 @@ Server.prototype.getCards = function(lang) {
  * @param {!Player} player
  */
 Server.prototype.onDisconnect = function(player) {
+    this.nPlayers--;
     if (player.id && this.players[player.id]) {
-        this.nPlayers--;
         if (player.game !== null) {
             player.game.onDisconnect(player);
         }
         delete this.players[player.id];
         console.info("[Server] Removed player: "+player);
-    } else {
-        console.warn("[Server] Failed to remove player: "+player);
-    }
+    } // else never logged in
 };
 
 /**
