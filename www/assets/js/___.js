@@ -182,7 +182,7 @@ var Client = (function(global, io) {
             var reqIds = Client.getQuery("request_ids");
             if (typeof reqIds == "string" && reqIds.length > 0) {
                 log("Landing via FB apprequest");
-                this.redirect(reqIds.split(",")); // Logs in
+                this.handleAppRequest(reqIds.split(",")); // Also logs in
 
             // Landing with game id
             } else if (location.hash.length > 1) {
@@ -209,6 +209,7 @@ var Client = (function(global, io) {
             
         }.bind(this));
     };
+    
 
     /**
      * Connects to the server.
@@ -221,7 +222,7 @@ var Client = (function(global, io) {
         this.socket.on("disconnect", function() {
             log("Disconnected");
             this.socket = null;
-            this.switchHome();
+            Client.showError(this.translate("Disconnected."), this.translate("Your connection to the server has been lost. Reloading the game might help."));
         }.bind(this));
         this.socket.on("hello", function(data) {
             log("S->C hello: version="+data.version+", "+data.languages.length+" languages");
@@ -429,7 +430,7 @@ var Client = (function(global, io) {
             // On reconnect only (e.g. a full update)
             var updateAll = false;
             if (data["clear"]) {
-                log("Clearing cars");
+                log("Clearing cards");
                 updateAll = true;
                 this.cards = [];
             }
@@ -488,7 +489,7 @@ var Client = (function(global, io) {
         // No more black cards. Stopped afterwards.
         this.socket.on("outofblack", function() {
             log("S->C outofblack");
-            // TODO: Show a nice message
+            Client.showError(this.translate("That's it!"), this.translate("All the black cards have been played. Start again if you wish!"));
         });
         
         // Select card(s) for the picked black
@@ -582,7 +583,7 @@ var Client = (function(global, io) {
      * Redirects to a game via an FB app request.
      * @param {Array.<string>} reqIds FB request ids
      */
-    Client.prototype.redirect = function(reqIds) {
+    Client.prototype.handleAppRequest = function(reqIds) {
         this.login(function(success) {
             if (success) {
                 log("Login ok");
@@ -590,26 +591,26 @@ var Client = (function(global, io) {
                     (function(i) {
                         log("C->FB: request "+reqIds[i]+"_"+this.me["id"]+"?");
                         var uri = "/"+reqIds[i]+"_"+this.me["id"];
-                        var last = i==reqIds.length-1;
-                        FB.api(uri, function(response) {
-                            if (response && response["data"]) {
-                                FB.api(uri, "delete"); // Delete all requests
-                                if (last) { // Process the most recent request only
-                                    log("Redirecting to game: "+response.data);
-                                    location.href = location.protocol+"//"+location.host+"/#"+encodeURIComponent(response.data);
+                        FB.api(uri, function(uri, last, response) {
+                            if (response && typeof response["data"] == 'string') {
+                                if (!last) { // Delete all old requests, keep the most recent one if multiple tries are necessary to join
+                                    log("Deleting old app request: "+response["data"]);
+                                    FB.api(uri, "delete");
+                                } else { // Process the most recent request only
+                                    log("Redirecting to game via app request: "+response["data"]);
+                                    location.href = location.protocol+"//"+location.host+"/#"+encodeURIComponent(response["data"]);
                                 }
                             } else {
                                 if (last) {
-                                    log("Redirect failed: Redirecting to home");
+                                    log("Redirect via app request failed: Most recent request failed");
                                     location.href = location.protocol+"//"+location.host;
                                 }
                             }
-                        }.bind(this));
+                        }.bind(this, uri, i==reqIds.length-1));
                     }.bind(this))(i);
                 }
             } else {
-                log("Login failed: Redirecting to home");
-                location.href = location.protocol+"//"+location.host;
+                this.handleAppRequest(reqIds); // Keep nagging
             }
         }.bind(this));
     };
@@ -623,6 +624,17 @@ var Client = (function(global, io) {
                 this.create();
             }
         }.bind(this));
+    };
+
+    /**
+     * Displays an error.
+     * @param {string} title
+     * @param {string} message
+     */
+    Client.showError = function(title, message) {
+        $('#alert-title').text(title);
+        $('#alert-message').text(message);
+        $('#alert').show();
     };
 
     /**
@@ -657,17 +669,13 @@ var Client = (function(global, io) {
             } else {
                 log("S->C failedJoin: "+game);
                 if (callback) callback(false);
-                $('#alert-title').text(this.translate("Sorry"));
-                var msg;
-                if (msg == "notinvited") {
-                    msg = this.translate("You are no more invited to this game. Contact the game host to invite you again or create a new gmae instead!");
-                } else if (msg == "notfound") {
-                    msg = this.translate("This game does no longer exist. Create a new one instead!");
+                if (game == "notinvited") {
+                    Client.showError(this.translate("Sorry"), this.translate("You are no more invited to this game. Contact the game host to invite you again or create a new gmae instead!"));
+                } else if (game == "notfound") {
+                    Client.showError(this.translate("Sorry"), this.translate("This game does no longer exist. Create a new one instead!"));
                 } else {
-                    msg = this.translate("You cannot join this game for some ridiculous reason. Create a new one instead!");
+                    Client.showError(this.translate("Sorry"), this.translate("You cannot join this game for some ridiculous reason. Create a new one instead!"));
                 }
-                $('#alert-message').text(msg);
-                $('#alert').show();
             }
         }.bind(this));
     };
@@ -760,7 +768,7 @@ var Client = (function(global, io) {
         for (var i=0; i<this.players.length; i++) {
             var player = this.players[i];
             var kick = "";
-            if (this.game && this.me && this.game.host["id"] == this.me["id"] && player["id"] != this.me["id"]) {
+            if (this.game && this.me && this.game.host["id"] == this.me["id"] && player["id"] != this.me["id"] && (!this.playerInCharge || player["id"] != this.playerInCharge["id"])) {
                 kick = '<a class="kick" href="#" onclick="client.kick(\''+player["id"]+'\'); return false"></a>';
             }
             var pe = $('<div class="player'+(player.connected ? ' connected' : '')+((this.playerInCharge !== null && player["id"] == this.playerInCharge["id"]) ? " incharge" : "")+'">'+kick+'<img src="https://graph.facebook.com/'+player["id"]+'/picture" /><span class="name">'+player["name"]+'</span> <span class="score">['+player["score"]+']</span></div>');
@@ -778,11 +786,11 @@ var Client = (function(global, io) {
         // Display player selections
         if (this.selections !== null) {
             var elem = $('#game-cards');
-            elem.empty();
+            elem.empty().append('<h3>'+this.translate("What's the most horrible?")+'</h3>');
             for (var i=0; i<this.selections.length; i++) {
                 // Show the current black plus every players selection, one selection per row
                 var sel = this.selections[i];
-                var row = $('<div class="cards" id="selection'+i+'" />').append('<h3>'+this.translate("What's the most horrible?")+'</h3>').append($('<div class="card card-black">'+nohtml(Client.makeBlack(this.card))+'</div>'));
+                var row = $('<div class="cards" id="selection'+i+'" />').append($('<div class="card card-black">'+nohtml(Client.makeBlack(this.card))+'</div>'));
                 // Clicking a white card picks this answer as the best
                 for (var j=0; j<sel.length; j++) {
                     var ce;
@@ -873,6 +881,7 @@ var Client = (function(global, io) {
                     btn.text(this.translate("Start the game"));
                     btn.removeAttr("disabled");
                     btn.on("click", function() {
+                        log("C->S start");
                         this.socket.emit("start");
                     }.bind(this));
                 } else {
@@ -887,6 +896,7 @@ var Client = (function(global, io) {
                     btn.text(this.translate("Pick a Black Card!"));
                     btn.removeAttr("disabled");
                     btn.on("click", function() {
+                        log("C->S pick");
                         this.socket.emit("pick");
                     }.bind(this));
                     
@@ -904,12 +914,15 @@ var Client = (function(global, io) {
                     if (this.selection !== null) { // Selection allowed
                         var count = this.card.match(/[_]+/g).length; // Number of required cards
                         if (this.selection.length == count) {
-                            btn.text(this.translate("Play these!"));
+                            btn.text(this.translate("Do it!"));
                             btn.removeAttr("disabled");
-                            btn.on("click", function() {
+                            btn.on("click", function(btn) {
+                                log("C->S select: "+this.selection);
                                 this.socket.emit("select", this.selection); // Server will pick something, always.
                                 this.selection = null;
-                            }.bind(this));
+                                btn.text(this.translate("Waiting for other players..."));
+                                btn.attr("disabled", "true");
+                            }.bind(this, btn));
                         } else {
                             btn.text(this.translate("Pick %n%!", { "n": count }));
                         }
@@ -1108,7 +1121,4 @@ window.oncontextmenu = function(event) {
     event.preventDefault();
     event.stopPropagation();
     return false;
-};
-document.onmousedown = function(e) {
-    return e.which != 3;
 };

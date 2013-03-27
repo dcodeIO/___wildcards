@@ -35,8 +35,8 @@
             "Ziehe eine schwarze Karte!",
         "%name% plays:":
             "%name% spielt:",
-        "Play these!":
-            "Diese Karten spielen!",
+        "Do it!":
+            "Mach das!",
         "You chose!":
             "Du wählst aus!",
         "What's the most horrible?":
@@ -64,6 +64,14 @@
         "You cannot join this game for some ridiculous reason. Create a new one instead!":
             "Du kannst dieses Spiel aus einem lächerlichen Grund nicht betreten. Erstelle stattdessen ein neues!",
         "Come on, let's play ___wildcards! A party game for horrible people.":
-            "Komm schon, lass uns ___wildcards spielen! Ein Party-Spiel für makabere Leute."
+            "Komm schon, lass uns ___wildcards spielen! Ein Party-Spiel für makabere Leute.",
+        "That's it!":
+            "Das war's!",
+        "All the black cards have been played. Start again if you wish!":
+            "Alle schwarzen Karten wurden gespielt. Startet erneut, wenn ihr möchtest!",
+        "Disconnected.":
+            "Verbindung unterbrochen.",
+        "Your connection to the server has been lost. Reloading the game might help.":
+            "Deine Verbindung zum Server wurde unterbrochen. Vielleicht hilft es, das Spiel neu zu laden."
     }
 }

@@ -297,6 +297,7 @@ Game.prototype.addInvitedPlayer = function(player) {
 Game.prototype.removePlayer = function(player) {
     player = this.getPlayer(player); // Ensure PlayerInGame
     if (player === null) return false;
+    if (player == this.playerInCharge) return false; // Cannot kick playerInCharge
     var i = this.players.indexOf(player);
     if (i < 0) return false;
     this.send("left", player.toJSON());
@@ -485,9 +486,11 @@ Game.prototype.nextRound = function() {
         console.info("[Game "+this+"] Picked black: "+this.card+(afterTimeout ? " after timeout" : ""));
         this.playRound();
     };
-    to = setTimeout(doPick.bind(this, true), Game.PICK_TIMEOUT);
     if (this.playerInCharge.isConnected()) {
+        to = setTimeout(doPick.bind(this, true), Game.PICK_TIMEOUT);
         this.playerInCharge.player.socket.on("pick", doPick.bind(this, false));
+    } else {
+        (doPick.bind(this))(true);
     }
 };
 
@@ -585,9 +588,11 @@ Game.prototype.playRound = function() {
                     }
                 };
                 
-                to = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT+3000 /* tolerate last minute decisions :-) */);
                 if (player.isConnected()) {
+                    to = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT+3000 /* tolerate last minute decisions :-) */);
                     player.player.socket.on("select", doSelect.bind(this, false));
+                } else {
+                    (doSelect.bind(this))(true);
                 }
                 
             }.bind(this))(p);
