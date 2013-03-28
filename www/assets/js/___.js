@@ -673,7 +673,7 @@ var Client = (function(global, io) {
                 log("S->C failedJoin: "+game);
                 if (callback) callback(false);
                 if (game == "notinvited") {
-                    Client.showError(this.translate("Sorry"), this.translate("You are no more invited to this game. Contact the game host to invite you again or create a new gmae instead!"));
+                    Client.showError(this.translate("Sorry"), this.translate("You are no more invited to this game. Contact the game host to invite you again or create a new game instead!"));
                 } else if (game == "notfound") {
                     Client.showError(this.translate("Sorry"), this.translate("This game does no longer exist. Create a new one instead!"));
                 } else {
@@ -789,7 +789,7 @@ var Client = (function(global, io) {
         // Display player selections
         if (this.selections !== null) {
             var elem = $('#game-cards');
-            elem.empty().append('<h3>'+this.translate("What's the most horrible?")+'</h3>');
+            elem.empty().append('<h3>'+this.translate("What made you laugh the most?")+'</h3>');
             for (var i=0; i<this.selections.length; i++) {
                 // Show the current black plus every players selection, one selection per row
                 var sel = this.selections[i];

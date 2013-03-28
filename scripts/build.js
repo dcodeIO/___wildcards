@@ -47,21 +47,26 @@ function parse(filename, black) {
     var data = fs.readFileSync(filename);
     
     data = (""+data).
-        replace(/\r/g, "").
-        replace(/^\s+|\s+$/g, "").
-        replace(/[_]+[ ]?/g, "_ ");
+        replace(/\r/g, ""). // rm CR
+        replace(/^\s+|\s+$/g, ""); // Trim
     if (data.length == 0) {
         return [];
     }
     data = data.split(/\n/g);
-    if (black) {
-        for (var i=0; i<data.length; i++) {
-            if (data[i].indexOf("_") < 0) {
-                data[i] += " _ .";
+    var res = [];
+    for (var i=0; i<data.length; i++) {
+        var line = data[i];
+        line = line.replace(/^\s+|\s+$/g, ""); // Trim
+        if (line.length == 0 || line.charAt(0) == ';') continue; // Skip empty lines and comments
+        if (black) {
+            if (line.indexOf("_") < 0) {
+                line += " _ ."; // Clean format
             }
+            line = line.replace(/[_]+[ ]?/g, "_ "); // Format blanks
         }
+        res.push(line);
     }
-    return data;
+    return res;
 }
 
 /**

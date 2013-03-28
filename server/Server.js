@@ -181,7 +181,7 @@ Server.prototype.start = function() {
     if (this.ioSecure) this.ioSecure.sockets.on('connection', this._onConnect.bind(this));
     
     // Update players online every 60 seconds
-    setTimeout(this.updateOnline.bind(this), 60*1000);
+    setInterval(this.updateOnline.bind(this), 60*1000);
     return this;
 };
 

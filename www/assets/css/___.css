@@ -57,6 +57,7 @@ body {
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     transition: all 0.2s;
+    text-decoration: none;
 }
 .cards .card-black { background-image: url(../img/black.png); color: white; }
 .cards .card-white { background-image: url(../img/white.png); color: black; }

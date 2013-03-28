@@ -1,3 +1,14 @@
+;
+; www.wildcardsgame.com
+; Licensed under Creative Commons BY-NC-SA 2.0
+; http://creativecommons.org/licenses/by-nc-sa/2.0/
+;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Generated from cards published by Cards Against Humanity
+; http://s3.amazonaws.com/cah/CAH_GermanByBalz.pdf
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Ein Zigeunerfluch.
 Ein Moment der Stille.
 Würstchen-Party.
@@ -202,8 +213,8 @@ Der Papst.
 Weiße.
 Tentacle Porn.
 Zu viel Haargel.
-Gleichgeschlechtlicher Eiskunftlauf.
-Charism.
+Gleichgeschlechtlicher Eiskunstlauf.
+Charisma.
 Keanu Reeves.
 Sean Penn.
 Nickelback.
@@ -359,3 +370,4 @@ ___wildcards.
 Lady Gaga.
 Der Milchmann.
 Vulgarität.
+Sich ausziehen und Nickelodeon ansehen.

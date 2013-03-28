@@ -1,3 +1,14 @@
+;
+; www.wildcardsgame.com
+; Licensed under Creative Commons BY-NC-SA 2.0
+; http://creativecommons.org/licenses/by-nc-sa/2.0/
+;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Generated from cards published by Cards Against Humanity
+; http://s3.amazonaws.com/cah/CAH_GermanByBalz.pdf
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Die Airline-Richtlinien verbieten nun _ an Bord von Flugzeugen.
 Es ist eine Schande, dass Kinder heutzutage in _ hineingezogen werden.
 In 1000 Jahren, wenn Papiergeld nur noch eine entfernte Erinnerung ist, wird _ unsere Währung sein.
@@ -16,8 +27,8 @@ _ . Einmal gepoppt, nie mehr gestoppt.
 Meine Antidroge: _ .
 Während die USA und die UDSSR um den Mond kämpften, steckte Frankreich Millionen in die Erforschung von _ .
 In diesem neuen Disney Film, kämpft Bibi Blocksberg das erst mal mit _ .
-Was ist meine meine geheime Kraft? _ .
-Die neue Trenddiat: _ .
+Was ist meine geheime Kraft? _ .
+Die neue Trenddiät: _ .
 Was hat Vin Disel zu Abend gegessen? _ .
 Als der Pharaoh nichts getan hat, rief Moses eine Plage _ herbei.
 Eine Beziehung hält man am besten mit _ am Laufen!
@@ -28,12 +39,12 @@ Statt Kohle gibt der Weihnachtsmann bösen Kindern nun _ .
 Das Leben der Indianer wurde für immer verändert, als der weiße Mann ihnen _ zeigte.
 In Großstädten benutzt man _ , um Schülern zum Erfolg zu verhelfen.
 Vielleicht wurde Sie damit geboren, vielleicht ist es aber auch _ .
-In seinen letzten Monenten dachte Michael Jackson an _ .
+In seinen letzten Momenten dachte Michael Jackson an _ .
 Menschen sind wie _ .
 _ ist ein schmaler Grat, der zu _ führt.
 Warum tut mir alles weh? _ .
 Ein romantisches Essen bei Kerzenschein wäre unvollständig ohne _ .
-Um alle zu überzeugen, dass ich ein mächtiger Zauberer bin, habe ich _ aus der Zukunft mit zurück gebracht.
+Um alle zu überzeugen, dass ich ein mächtiger Zauberer bin, habe ich _ aus der Zukunftkunft mit zurück gebracht.
 Bob Ross ist hier um _ .
 Die Klassenfahrt wurde durch _ völlig ruiniert.
 _ ist was Frauen wollen.
@@ -56,7 +67,7 @@ Was hat meine letzte Beziehung beendet? _ .
 Was ist das für ein Geräusch? _ .
 _ . So möchte ich sterben.
 Was klebt denn hier so? _ .
-Das nächste Happy-Meal® ist _ .
+Das nächste Happy-Meal®-Spielzeug ist _ .
 Im Himmel gibt es tonnenweise _ !
 Ich habe keine Ahnung, mit welchen Waffen man im 3. Weltkrieg kämpfen wird, aber im 4. Weltkrieg wird es _ sein.
 Mit _ kann man jeden flachlegen!
