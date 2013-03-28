@@ -110,10 +110,10 @@ var Server = function(credentials) {
     this.players = {};
 
     /**
-     * Number of connected players.
+     * Number of connections.
      * @type {number}
      */
-    this.nPlayers = 0;
+    this.numConnections = 0;
 };
 
 /**
@@ -191,14 +191,31 @@ Server.prototype.start = function() {
  * @private
  */
 Server.prototype._onConnect = function(socket) {
+    this.numConnections++;
+    
+    // Handle disconnect
+    socket.on("disconnect", function(socket) {
+        this.numConnections--;
+        if (typeof socket.player != 'undefined') {
+            socket.player.disconnect(true);
+        }
+    }.bind(this, socket));
+    
+    // Say hello
     socket.emit('hello', {
         version: pkg.version,
         languages: this.languages // Array of language descriptions
     });
-    socket.emit("online", ++this.nPlayers);
+    
+    // Tell how many are online
+    socket.emit("online", this.numConnections);
+    
+    // Handle login
     socket.on('login', function(data) {
         if (!!data["id"] && !!data["name"]) {
-            this.players[data["id"]] = new Player(this, socket, data); // Prints info
+            var p = new Player(this, socket, data); // Prints info
+            socket.player = p;
+            this.players[data["id"]] = p;
         } else {
             console.warn("[Server] Invalid login from "+socket);
         }
@@ -212,7 +229,7 @@ Server.prototype.updateOnline = function() {
     for (var i=0; i<this.players.length; i++) {
         var p = this.players[i];
         if (p.isConnected()) {
-            p.socket.emit("online", this.nPlayers);
+            p.socket.emit("online", this.numConnections);
         }
     }
 };

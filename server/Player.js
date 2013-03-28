@@ -52,8 +52,6 @@ var Player = function(server, socket, data) {
         this.socket.on("join", this.joinGame.bind(this));
         // Handle creating a room
         this.socket.on("create", this.createGame.bind(this));
-        // Handle disconnect
-        this.socket.on("disconnect", this.disconnect.bind(this, true));
         // Emit loggedin
         this.socket.emit("loggedin", this.toJSON());
     }
