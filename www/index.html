@@ -4,6 +4,8 @@
 <meta charset="utf-8" />
 <title>___wildcards - A party game for horrible people.</title>
 <meta name="description" content="The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card." />
+<meta name="keywords" content="Cards Against Humanity online, party game, horrible people" />
+<meta property="og:image" content="http://www.wildcardsgame.com/assets/icon300.jpg" />
 <meta name="viewport" content="width=1024, initial-scale=1.0" />
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="assets/css/___.css" rel="stylesheet" />
@@ -11,11 +13,16 @@
 </head>
 <body>
 
+<!-- Image for any form of automatically rendered preview -->
+<div style="display: none"><img src="http://www.wildcardsgame.com/assets/icon300.jpg" alt="___wildcards" /></div>
+
 <!-- Static header -->
 <div id="header" class="header">
     <div class="container">
         <h1>___wildcards</h1>
         <h2 id="lang-title">A party game for horrible people.</h2>
+        <h3>Play Cards Against Humanity&trade; online.</h3>
+        <h3>BLÄNK online spielen.</h3>
     </div>
 </div>
 
@@ -31,12 +38,7 @@
     <!-- Teaser -->
     <div id="teaser" class="container">
         <h3 id="lang-desc">The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.</h3>
-
-        <div class="cards">
-            <div class="card card-black" id="lang-frontcard1">When my girlfriend/boyfriend wants _____ , I have to use _____ .</div>
-            <div class="card card-white" id="lang-frontcard2">A flesh wound</div>
-            <div class="card card-white" id="lang-frontcard3">A snapping turtle biting the tip of your penis</div>
-        </div>
+        <div id="teaser-cards" class="cards"></div>
         <div style="text-align: center; padding-top: 50px">
             <a class="btn btn-large dropdown-toggle" href="#" onclick="client.selectLanguage(); return false"><i class="icon-globe" style="margin-top: 3px"></i> <span id="lang-selectlang">Select your language</span></a> &nbsp;
             <a class="btn btn-large btn-primary" href="#" onclick="client.loginAndCreate(); return false"><img src="assets/img/fb-icon.png" style="margin-top: -3px"/> <span id="lang-login">Play with your friends!</span></a>
@@ -56,7 +58,7 @@
             <div class="cards">
                 <div class="card card-black" id="lang-gamecard1">How many friends does it take to play? _____ . What's recommended for the full fun? _____ .</div>
                 <div class="card card-white" id="lang-gamecard2">Me + one</div>
-                <div class="card card-white" id="lang-gamecard3">Me + at least two</div>
+                <div class="card card-white" id="lang-gamecard3">I + at least two</div>
              </div>
         </div>
         <div class="buttons">
@@ -96,11 +98,11 @@
             </div>
         </div>
     </div>
-    <p>
-        Based on the original <a target="_blank" href="http://www.cardsagainsthumanity.com">Cards Against Humanity</a>&trade;.
-        Creative Commons BY-NC-SA 2.0.
+    <p class="credit muted">
         Created by <a target="_blank" href="http://dcode.io">dcode.io</a> just for the thrill of it.
-        <a target="_blank" href="https://github.com/dcodeIO/wildcardsgame">Contribute!</a>
+        All rights belong to their respective owners.
+        <a target="_blank" href="https://github.com/dcodeIO/wildcardsgame">Contribute!</a><br />
+        Based on but neither affiliated nor endorsed with <a target="_blank" href="http://www.cardsagainsthumanity.com">Cards Against Humanity</a>&trade;
     </p>
 </div>
 
@@ -132,6 +134,7 @@
 
 <!-- Bootstrap -->
 <script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.transit.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 
 <!-- Socket.io -->
@@ -139,6 +142,7 @@
 
 <!-- ___wildcards -->
 <script src="/assets/js/___.js"></script>
+<script src="/assets/js/___teaser.js"></script>
 
 <!-- Facebook SDK -->
 <div id="fb-root"></div>

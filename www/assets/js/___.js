@@ -298,6 +298,7 @@ var Client = (function(global, io) {
                                 this.socket.removeAllListeners("loggedin");
                                 this.me = me;
                                 if (callback) callback(true);
+                                this.onLogin();
                             } else {
                                 log("S->C loginFailed");
                                 if (callback) callback(false);
@@ -313,6 +314,18 @@ var Client = (function(global, io) {
                 if (callback) callback(false);
             }
         }.bind(this));
+    };
+
+    /**
+     * Called upon successfully login.
+     */
+    Client.prototype.onLogin = function() {
+        /* FB.api('/me/scores', function(data) {
+            console.log("scores: "+JSON.stringify(data, null, 4));
+        }.bind(this));
+        FB.api('/me/scores', 'post', { "score": 0 }, function(response) {
+            console.log("res: "+JSON.stringify(response, null, 4));
+        }.bind(this)); */
     };
 
     /**
@@ -922,6 +935,7 @@ var Client = (function(global, io) {
                             btn.on("click", function(btn) {
                                 log("C->S select: "+this.selection);
                                 this.socket.emit("select", this.selection); // Server will pick something, always.
+                                this.onCardsPlayed(this.card, this.selection);
                                 this.selection = null;
                                 btn.text(this.translate("Waiting for other players..."));
                                 btn.attr("disabled", "true");
@@ -1084,7 +1098,7 @@ var Client = (function(global, io) {
     Client.SOUNDS = {
         "message": global.document.getElementById("sound-message"),
         "nudge": global.document.getElementById("sound-nudge")
-    }
+    };
     
     /**
      * Inline-translated elements.
@@ -1109,6 +1123,19 @@ var Client = (function(global, io) {
         $('#lang-selectlanguage'),
         $('#lang-chat')
     ];
+
+    /**
+     * A Card.
+     * @param {string} text Card text
+     * @param {boolean} black Whether black or white
+     * @param {string} elem Card element
+     * @constructor
+     */
+    Client.Card = function(text, black, elem) {
+        this.text = text;
+        this.black = black;
+        this.elem = elem;
+    };
     
     return Client;
     

@@ -1,6 +1,10 @@
 {
     "name": "English (US)",
     "extends": "en",
-    "black": [],
+    "black": [
+        "TSA guidelines now prohibit _ on airplanes.",
+        "In an attempt to reach a wider audience, the Smithsonian Museum of Natural History has opened an interactive exhibit on _ .",
+        "Lifetime® presents _ , the story of _ ."
+    ],
     "white": []
 }

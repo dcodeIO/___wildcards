@@ -1,11 +1,8 @@
 {
     "name": "Deutsch (Deutschland)",
     "translations": {
-        "A party game for horrible people.": "Ein Party-Spiel für makabere Leute.",
-        "The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.": "Das Spiel ist einfach: Pro Runde stellt ein Spieler eine Frage von einer schwarzen Karte und alle anderen beantworten sie mit ihrer lustigsten weißen Karte. Der Spieler, der die schwarze Karte gespielt hat, entscheidet dann, welche Antwort die spaßigste war.",
-        "When my girlfriend/boyfriend wants _____ , I have to use _____ .": "Wenn meine Freundin/mein Freund _____ möchte, muss ich _____ verwenden.",
-        "A flesh wound": "Eine Fleischwunde.",
-        "A snapping turtle biting the tip of your penis": "Eine schnappende Schildkröte, die die Spitze aus deinem Penis beißt.",
+        "A party game for horrible people.": "Ein Party-Spiel für fiese Leute.",
+        "The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.": "Das Spiel ist einfach: Pro Runde stellt ein Spieler eine Frage von einer schwarzen Karte und alle anderen beantworten sie mit ihrer lustigsten weißen Karte. Der Spieler, der die schwarze Karte gespielt hat, entscheidet dann, welche Antwort die beste war.",
         "Select your language": "Wähle deine Sprache",
         "Play with your friends!": "Spiele mit deinen Freunden!",
         "Invite your horrible friends": "Lade deine makaberen Freunde ein",
@@ -13,7 +10,7 @@
         "Direct game link (for the case):": "Direkter Spiel-Link (für den Fall):",
         "How many friends does it take to play? _____ . What's recommended for the full fun? _____ .": "Wie viele Freunde braucht's zum Spielen? _____ . Was wird für den vollen Spaß empfohlen? _____ .",
         "Me + one": "Mich + einen.",
-        "Me + at least two": "Ich + mindestens zwei.",
+        "I + at least two": "Ich + mindestens zwei.",
         "Waiting for more players...": "Warte auf mehr Spieler...",
         "Start the game": "Spiel starten",
         "Pick a Black Card!": "Ziehe eine schwarze Karte!",
@@ -36,7 +33,13 @@
         "That's it!": "Das war's!",
         "All the black cards have been played. Start again if you wish!": "Alle schwarzen Karten wurden gespielt. Startet erneut, wenn ihr möchtest!",
         "Disconnected.": "Verbindung unterbrochen.",
-        "Your connection to the server has been lost. Reloading the game might help.": "Deine Verbindung zum Server wurde unterbrochen. Vielleicht hilft es, das Spiel neu zu laden."
+        "Your connection to the server has been lost. Reloading the game might help.": "Deine Verbindung zum Server wurde unterbrochen. Vielleicht hilft es, das Spiel neu zu laden.",
+        "Next from J.K. Rowling: Harry Potter and the Chamber of _____ .": "Neues von J.K. Rowling: Harry Potter und die Kammer des _____ .",
+        "A sausage festival.": "Ein Würstchenfest.",
+        "Raping and pillaging.": "Vergewaltigen und Plündern.",
+        "Laying an egg.": "Ein Ei legen.",
+        "BATMAN!!!": "BATMAN!!!",
+        "Alcoholism.": "Alkoholismus"
     },
     "lang": "de-DE"
 }

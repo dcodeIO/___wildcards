@@ -19,7 +19,6 @@ body {
     background: #000 url(../img/bg.jpg) center center no-repeat;
     color: #fff;
     text-align: left;
-    border-bottom: 2px solid white;
 }
 .header-low {
     height: 150px;
@@ -27,6 +26,7 @@ body {
 }
 .header h1 { display: none; }
 .header h2 { vertical-align: bottom; width: 520px; font-size: 50px; position: absolute; bottom: 25px; margin-left: 60px; line-height: 45px; }
+.header h3 { display: none; }
 
 .social { height: 35px; }
 .social .container { text-align: center; padding-top: 6px; padding-bottom: 1px; }
@@ -39,6 +39,9 @@ body {
     padding: 20px;
 }
 .footer { text-align: center; padding-top: 30px; }
+.footer .credit { font-size: 12px; }
+.footer a { color: #666; }
+.footer a:hover { color: #0088cc; }
 
 #alert { display: none; }
 
@@ -56,8 +59,9 @@ body {
     text-align: left;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
-    transition: all 0.2s;
+    transition: all .2s ease-in-out;
     text-decoration: none;
+    position: relative;
 }
 .cards .card-black { background-image: url(../img/black.png); color: white; }
 .cards .card-white { background-image: url(../img/white.png); color: black; }
