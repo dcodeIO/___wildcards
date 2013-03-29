@@ -34,7 +34,9 @@ function teaser_animate(elem) {
         teaser_black = 
         teaser_white = 0;
     }
-    setTimeout(teaser_animate.bind(window, elem), 2050);
+    setTimeout(function() {
+        teaser_animate(elem);
+    }.bind(window), 2050);
 }
 
 $(document).ready(function() {

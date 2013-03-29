@@ -8,6 +8,7 @@
 <meta property="og:image" content="http://www.wildcardsgame.com/assets/icon300.jpg" />
 <meta name="viewport" content="width=1024, initial-scale=1.0" />
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
 <link href="assets/css/___.css" rel="stylesheet" />
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
@@ -40,7 +41,7 @@
         <h3 id="lang-desc">The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.</h3>
         <div id="teaser-cards" class="cards"></div>
         <div style="text-align: center; padding-top: 50px">
-            <a class="btn btn-large dropdown-toggle" href="#" onclick="client.selectLanguage(); return false"><i class="icon-globe" style="margin-top: 3px"></i> <span id="lang-selectlang">Select your language</span></a> &nbsp;
+            <a class="btn btn-large" href="#" onclick="client.selectLanguage(); return false"><i class="icon-globe" style="margin-top: 3px"></i> <span id="lang-selectlang">Select your language</span></a> &nbsp;
             <a class="btn btn-large btn-primary" href="#" onclick="client.loginAndCreate(); return false"><img src="assets/img/fb-icon.png" style="margin-top: -3px"/> <span id="lang-login">Play with your friends!</span></a>
         </div>
     </div>
@@ -107,7 +108,7 @@
 </div>
 
 <!-- Language select modal -->
-<div id="selectlanguage" class="modal hide fade">
+<div id="selectlanguage" class="modal hide">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3 id="lang-selectlanguage">Select your language</h3>

@@ -263,6 +263,7 @@ var Client = (function(global, io) {
             if (callback) callback();
         }.bind(this));
         this.socket.on("online", function(count) {
+            log("S->C online: "+count);
             $('#onlinecount').text(this.translate("%n% players online", { "n": count }));
         }.bind(this));
     };
@@ -1007,7 +1008,11 @@ var Client = (function(global, io) {
                     elem.append(le);
                 // }
             }
-            $('#selectlanguage').modal('show');
+            $('#selectlanguage').modal({
+                "show": true,
+                "backdrop": "static",
+                "keyboard": false
+            });
        }
     };
 
@@ -1018,7 +1023,6 @@ var Client = (function(global, io) {
      * @return {string}
      */
     Client.prototype.translate = function(s, replace) {
-        $('#selectlanguage').modal('hide');
         if (this.i18n.translations[s]) {
             s = this.i18n.translations[s];
         }
@@ -1036,6 +1040,7 @@ var Client = (function(global, io) {
      * @param {boolean=} redirect
      */
     Client.prototype.setLanguage = function(key, redirect) {
+        $('#selectlanguage').modal('hide');
         // Grep the language
         $.getJSON("/assets/i18n/"+key+".json", function(data) {
             if (!data || !data["translations"]) return;
