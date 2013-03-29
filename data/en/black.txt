@@ -1,16 +1,3 @@
-;
-; www.wildcardsgame.com
-; Licensed under Creative Commons BY-NC-SA 2.0
-; http://creativecommons.org/licenses/by-nc-sa/2.0/
-;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Generated from cards published by Cards Against Humanity
-; http://www.cardsagainsthumanity.com/bcards.txt
-; http://www.cardsagainsthumanity.com/bcards1.txt
-; http://www.cardsagainsthumanity.com/bcards2.txt
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 It's a pity that kids these days are all getting involved with _ .
 In 1,000 years, when paper money is but a distant memory, _ will be our currency.
 Major League Baseball has banned _ for giving players an unfair advantage.
@@ -33,7 +20,6 @@ In L.A. County Jail, word is you can trade 200 cigarettes for _ .
 After the earthquake, Sean Penn brought _ to the people of Haiti.
 Instead of coal, Santa now gives the bad children _ .
 Life for American Indians was forever changed when the White Man introduced them to _ .
-What's Teach for America using to inspire inner city students to succeed? _ .
 Maybe she's born with it. Maybe it's _ .
 In Michael Jackson's final moments, he thought about _ .
 White people like _ .
@@ -79,7 +65,6 @@ What gives me uncontrollable gas? _ .
 What do old people smell like? _ .
 What am I giving up for Lent? _ .
 Alternative medicine is now embracing the curative powers of _ .
-What did the US airdrop to the children of Afghanistan? _ .
 What does Dick Cheney prefer? _ .
 During Picasso's often-overlooked Brown Period, he produced hundreds of paintings of _ .
 What don't you want to find in your Chinese food? _ .
@@ -120,12 +105,6 @@ In M. Night Shyamalan's new movie, Bruce Willis discovers that _ had really been
 I never truly understood _ until I encountered _ .
 Rumor has it that Vladimir Putin's favorite dish is _ stuffed with _ .
 What's the next superhero / sidekick duo? _ and _ .
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Generated from cards published by oligarchy 314 @ boardgamegeek.com
-; http://mdsc.info/dropbox/cah/cah-2nd-exp.pdf
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 During his midlife crisis, my dad got really into _ .
 Next time on Dr. Phil: How to talk to your child about _ .
 I went from _ to _ , all thanks to _ .
@@ -151,17 +130,122 @@ My mom freaked out when she looked at my browser history and found " _ .com/ _ "
 Tonight on 20/20: What you don't know about _ could kill you.
 I spent my whole life working toward _ , only to have it ruined by _ .
 You haven't truly lived until you've experienced _ and _ at the same time.
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Generated from cards published by oligarchy 314 @ boardgamegeek.com
-; http://mdsc.info/dropbox/cah/cah-holiday.pdf
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 After blacking out during New Year's Eve, I was awoken by _ .
 This holiday season, Tim Allen must overcome his fear of _ to save Christmas.
 What keeps me warm during the cold, cold winter? _ .
 Every Christmas, my uncle gets drunk and tells the story about _ .
 On the third day of Christmas, my true love gave to me: three French hens, two turtle doves and _ .
-Elf cum.
-Jesus is _ .
 Wake up, America. Christmas is under attack by secular liberals and their _ .
+Apple has revealed they now have a patent for _ .
+Ask your doctor if _ is right for you.
+Back in my day, _ only cost a nickel.
+Bang _ Marry _ Kill _ .
+Check your privilege. And _ .
+Choosy moms choose _ .
+Cirque de Soleil presents MYSTIQUEE, a night of daring acrobatics, whimsy and _ .
+Daddy drinks because of _ .
+Damn it feels good to be _ .
+Danger! _ ahead!
+Dear Sir or Madam, We regret to inform you that the Office of _ has denied your request for _ .
+Disney presents _ on ice!
+Disney's newest Pixar movie will be about _ .
+Every _ should be required to get a tattoo of _ .
+For campaign funding reform to really be effective, there needs to be a specific policy about _ contributions.
+Fred Phelps and his church have just announced that they plan to start picketing the funerals of _ as well as gays.
+Genius is 10% inspiration and 90% _ .
+Give me liberty, or give me _ !
+Go-go Gadget _ !
+Groundbreaking research provides convincing evidence that _ killed the dinosaurs.
+Happiness is _ .
+Hey Rocky, watch me pull _ out of my _ !
+Horton could hear it through the bedroom wall...his mother and _ .
+Horton is always forcing his _ on other people.
+How did this _ get into my _ ?
+I always call in sick to work when I have a bad case of _ .
+I always think of _ when I fall asleep.
+I can drive and _ and _ at the same time.
+I can handle public displays of affection, but _ is really too much.
+I can't get no _ .
+I feel the need—the need for _ .
+I firmly believe that for the economy to recover, the Department of _ needs to change its policies on _ .
+I for one welcome our new _ overlords!
+I got a fever and the only cure is more _ .
+I have decided to commit to a life of studious contemplation on_ .
+I like my women like _ .
+I like to keep _ as a souvenir of my sexual encounters.
+Mister Owl, how many licks does it take to get to the center of _ ?
+Moral at work was boosted when they put_ in the vending machines.
+My favorite book is the classic tale of _ , written by _ .
+My favorite childhood memory is_ .
+My favorite TV channel is the one that shows programs about _ .
+My favourite family recipe is _ and _ with just a dash of _ .
+My Little Pony: Friendship is _ .
+My mission in life is to create a videogame about _ .
+My other car is a _ .
+New car sticker craze: Calvin pissing on _ .
+Next on Oprah, teens addicted to _ .
+Next, on Martha Stewart's Living, spruce up your _ with _ .
+Next, on the Twilight Zone: a parallel universe in which every instance of _ is replaced by _ .
+Nobody puts _ in a corner.
+Nothing beats cuddling with _ in bed.
+Nothing feels better than _ on _ .
+Now witness the firepower of this fully armed and operational _ !
+On tonight's special report, _ . Fact or fiction?
+One day a man is bitten by _ and is transformed into _ .
+Only _ is worse than a heretic.
+Our most powerful weapon on the day of the zombie apocalypse will be _ .
+Remember, _ is never funny. Unless it involves _ .
+Roses are red; Violets are _ ; _ is _ , and so are you.
+Say no to _ .
+Science has discovered that beyond the edges of the universe, there is only _ .
+Scientists have reverse engineered alien technology that unlocks the secrets of _ .
+Sizzler’s special tonight: _ with a side of _ .
+Something you should regret, but secretly don't. _ .
+Sometimes you feel like _ , sometimes you don't.
+Sticks and stones may break my bones, but _ will never hurt me.
+Stop staring at my _ .
+The 1930's is often regarded as the golden age of _ .
+The best Christmas present my grandma ever gave me was_ .
+The best part of waking up is _ in your cup.
+The best things in life come in _ .
+The Christian Coalition has recently decided that an even worse sin than same-sex marriage is _ .
+The clown made all the children laugh with his balloon animal in the shape of _ .
+What is the only way I can achieve orgasm? _ .
+What keeps me up at night? _ .
+What makes Fred Phelps hard? _ .
+What makes me tingle all over? _ .
+What makes the world go round? _ .
+What melts in your mouth, not in your hand? _ .
+What time is it? _ time!
+What was Abraham Lincoln's deep, dark secret? _ .
+What will be an issue in the next presidential election? _ .
+What will be our last chance for salvation when our new robot overlords take over? _ .
+What will be put in the time capsule to preserve humanity's memory? _ .
+What will I bring to the party? _ .
+What's my superpower? _ .
+What's the real reason that I've gathered you all hear today? _ .
+What's the worst that could happen? _ .
+When a man and a woman love each other very much, suddenly _ .
+When I get drunk, I feel that I am an expert on _ .
+When I get married, our vows will include words about _ .
+When I saw your mom naked, it reminded me of _ 
+When I'm alone and the room is totally dark, I like to secretly _ .
+When life gives you _ , make _ .
+When you wake up from a night of heavy drinking, you usually regret _ 
+Where do babies come from? _ .
+Who could have guessed that the alien invasion would be easily thwarted by _ .
+Who was my childhood hero? _ .
+Why am I in such a bad mood? _ .
+Why am I like this? _ .
+Why are we wearing tuxedos? _ .
+Why did the _ have to _ ?
+Why does God pee on us, periodically? _ .
+Why is mom calling? _ .
+Why was my application to work at McDonald's rejected? _ .
+With the Democrats and Republicans in a dead heat, the election was stolen by the _ party.
+Wonder Twin powers, activate! Shape of _ . Form of _ .
+You can never have too many _ when in East LA.
+You can never have too much _ .
+You know God hates you when _ .
+You’re in good hands with _ .
+Jesus is _ .

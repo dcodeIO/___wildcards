@@ -685,8 +685,8 @@ var Client = (function(global, io) {
             } else {
                 log("S->C failedJoin: "+game);
                 if (callback) callback(false);
-                if (game == "notinvited") {
-                    Client.showError(this.translate("Sorry"), this.translate("You are no more invited to this game. Contact the game host to invite you again or create a new game instead!"));
+                if (game == "full") {
+                    Client.showError(this.translate("Sorry"), this.translate("The game you are trying to join is already full. Create a new game instead!"));
                 } else if (game == "notfound") {
                     Client.showError(this.translate("Sorry"), this.translate("This game does no longer exist. Create a new one instead!"));
                 } else {
@@ -935,7 +935,7 @@ var Client = (function(global, io) {
                             btn.on("click", function(btn) {
                                 log("C->S select: "+this.selection);
                                 this.socket.emit("select", this.selection); // Server will pick something, always.
-                                this.onCardsPlayed(this.card, this.selection);
+                                // this.onCardsPlayed(this.card, this.selection);
                                 this.selection = null;
                                 btn.text(this.translate("Waiting for other players..."));
                                 btn.attr("disabled", "true");

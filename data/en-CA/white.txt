@@ -1,14 +1,3 @@
-;
-; www.wildcardsgame.com
-; Licensed under Creative Commons BY-NC-SA 2.0
-; http://creativecommons.org/licenses/by-nc-sa/2.0/
-;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Generated from cards published by oligarchy 314 @ boardgamegeek.com
-; http://mdsc.info/dropbox/cah/cah-can-exp.pdf
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 Snotsicles.
 Naked News.
 Don Cherry's wardrobe.

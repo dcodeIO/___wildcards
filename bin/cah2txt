@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- wildcardsgame (c) 2013 Daniel Wirtz <dcode@dcode.io>
+ wildcards cah2txt (c) 2013 Daniel Wirtz <dcode@dcode.io>
 
  Licensed under Creative Commons Attribution-NonCommercial-ShareAlike 2.0
 
@@ -42,8 +42,8 @@ var fs = require("fs");
 
 // Argv
 if (process.argv.length < 3) {
-    process.stderr.write("wildcardsgame cah2___ (c) 2013 Daniel Wirtz <dcode@dcode.io>\nConverts original CAH data files to a compatible format.\n");
-    process.stderr.write("\n   Usage: cah2___ [cahFile] > [txtFile]\n");
+    process.stderr.write("wildcardsgame cah2txt (c) 2013 Daniel Wirtz <dcode@dcode.io>\nConverts original CAH data files to a compatible format.\n");
+    process.stderr.write("\n   Usage: cah2txt [cahFile] > [txtFile]\n");
     process.exit(1);
 }
 

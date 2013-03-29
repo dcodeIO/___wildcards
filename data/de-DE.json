@@ -1,7 +1,22 @@
 {
     "name": "Deutsch (Deutschland)",
     "extends": "de",
-    "black": [],
+    "black": [
+        "Es wird gemunkelt, dass man in der JVA Tegel 200 Zigaretten gegen _ eintauschen kann.",
+        "_ . Typisch Deutsch!",
+        "Diesen Sommer in der Kölnarena: _ , das Musical.",
+        "Wolfgang Schäuble bevorzugt _ .",
+        "Hamburg behauptet in der neuesten Tourismus-Kampagne, dass das leidige _ -Problem endlich gelöst ist.",
+        "In seinem neuesten selbstproduzierten Album rappt Bushido zu den Beats von _ .",
+        "Einigkeit und Recht und _ .",
+        "Früher hat _ mal nur eine Mark gekostet.",
+        "Demnächst bei Vera am Mittag: _ -abhängige Jugendliche.",
+        "Heute bei Explosiv: _ , Fakt oder Einbildung?",
+        "Um wieder mehr Besucher anzuziehen, hat das Deutsche Museum eine interaktive Ausstellung über _ eröffnet.",
+        "In Berlin benutzen sie _ , um Schülern zum Erfolg zu verhelfen.",
+        "Die Lufthansa verbietet neuerdings sogar _ an Bord von Flugzeugen.",
+        "ARTE präsentiert: _ , die Geschichte von _ ."
+    ],
     "white": [
         "Das Rainer-Calmund-Qualitäts-Siegel.",
         "Harald Schmidts Hoden im Vorhang verfangen.",

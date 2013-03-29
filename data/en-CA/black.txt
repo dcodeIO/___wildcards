@@ -1,19 +1,11 @@
-;
-; www.wildcardsgame.com
-; Licensed under Creative Commons BY-NC-SA 2.0
-; http://creativecommons.org/licenses/by-nc-sa/2.0/
-;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Generated from cards published by oligarchy 314 @ boardgamegeek.com
-; http://mdsc.info/dropbox/cah/cah-can-exp.pdf
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+; US/CA diffs
 In an attempt to reach a wider audience, the Royal Ontario Museum has opened an interactive exhibit on _ .
 What's the Canadian government using to inspire rural students to succeed? _ .
-In the next Bob and Doug McKenzie adventure, they have to find _ to uncover a sinister plot involving _ and _.
 Air Canada guidelines now prohibit _ on airplanes.
 CTV presents _ , the story of _ .
+
+; Unknown. Additions?
+In the next Bob and Doug McKenzie adventure, they have to find _ to uncover a sinister plot involving _ and _.
 In Vancouver it is now legal to _ .
 O Canada, we stand on guard for _ .
 If _ came in two-fours Canada would be more _ ?

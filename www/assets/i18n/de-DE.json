@@ -7,7 +7,7 @@
         "Play with your friends!": "Spiele mit deinen Freunden!",
         "Invite your horrible friends": "Lade deine makaberen Freunde ein",
         "Invite more friends": "Mehr Freunde einladen",
-        "Direct game link (for the case):": "Direkter Spiel-Link (für den Fall):",
+        "Or use this direct game link:": "Oder verwende diesen direkten Spiel-Link:",
         "How many friends does it take to play? _____ . What's recommended for the full fun? _____ .": "Wie viele Freunde braucht's zum Spielen? _____ . Was wird für den vollen Spaß empfohlen? _____ .",
         "Me + one": "Mich + einen.",
         "I + at least two": "Ich + mindestens zwei.",
@@ -26,7 +26,7 @@
         "Gossip": "Gelaber",
         "Type something...": "Schreibe etwas...",
         "Sorry": "Sorry",
-        "You are no more invited to this game. Contact the game host to invite you again or create a new game instead!": "Du bist zu diesem Spiel nicht mehr eingeladen. Bitte den Spielleiter, dich erneut einzuladen, oder erstelle stattdessen ein neues Spiel!",
+        "The game you are trying to join is already full. Create a new game instead!": "Das Spiel, das du betreten möchtest, ist bereits voll. Erstelle stattdessen ein neues Spiel!",
         "This game does no longer exist. Create a new one instead!": "Dieses Spiel existiert nicht mehr. Erstelle stattdessen ein neues!",
         "You cannot join this game for some ridiculous reason. Create a new one instead!": "Du kannst dieses Spiel aus einem lächerlichen Grund nicht betreten. Erstelle stattdessen ein neues!",
         "Come on, let's play ___wildcards! A party game for horrible people.": "Komm schon, lass uns ___wildcards spielen! Ein Party-Spiel für makabere Leute.",
@@ -39,7 +39,7 @@
         "Raping and pillaging.": "Vergewaltigen und Plündern.",
         "Laying an egg.": "Ein Ei legen.",
         "BATMAN!!!": "BATMAN!!!",
-        "Alcoholism.": "Alkoholismus"
+        "Alcoholism.": "Alkoholismus."
     },
     "lang": "de-DE"
 }

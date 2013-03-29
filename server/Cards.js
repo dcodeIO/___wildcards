@@ -1,5 +1,5 @@
 /*
- wildcardsgame (c) 2013 Daniel Wirtz <dcode@dcode.io>
+ wildcards (c) 2013 Daniel Wirtz <dcode@dcode.io>
 
  Licensed under Creative Commons Attribution-NonCommercial-ShareAlike 2.0
 

@@ -1,5 +1,5 @@
 /*
- wildcardsgame (c) 2013 Daniel Wirtz <dcode@dcode.io>
+ wildcards (c) 2013 Daniel Wirtz <dcode@dcode.io>
 
  Licensed under Creative Commons Attribution-NonCommercial-ShareAlike 2.0
 
@@ -200,11 +200,9 @@ Game.prototype.addInvited = function(friends) {
         if (this.players.length >= Game.MAX_PLAYERS) break;
         var friend = friends[i];
         if (Player.isValidId(friend["id"]) && !this.hasPlayer(friend["id"]) && Player.isValidName(friend["name"])) {
-            try {
-                this.addPlayer(new PlayerInGame(friend)); // Not connected
-                n++;
-            } catch (e) {
-            }
+            var p = new PlayerInGame(friend); // Not connected placeholder
+            this.players.push(p);
+            this.send("join", p.toJSON());
         }
     }
     return n;
@@ -260,33 +258,53 @@ Game.prototype.getPlayer = function(id) {
 
 /**
  * Adds a player to the game. Notifies all players including the new one about the join.
- * @param {PlayerInGame} player Player added
+ * @param {Player} player Player added
+ * @param {boolean=} create true if creating a new game
  * @return {boolean} true if successfully added, false if not a valid player or already in
  */
-Game.prototype.addPlayer = function(player) {
-    if (player === null || this.hasPlayer(player)) {
-        return false;
-    }
-    this.players.push(player = new PlayerInGame(player));
-    this.send("join", player.toJSON());
-    console.info("[Game "+this+"] Added player "+player);
-    return true;
-};
-
-/**
- * Adds an invited or reconnecting player to the game.
- * @param {Player} player
- * @return {boolean} true if successfully added, false if not found
- */
-Game.prototype.addInvitedPlayer = function(player) {
-    var i = this.findPlayer(player);
-    if (i >= 0) {
-        this.players[i].player = player; // Switch to connected
-        player = this.players[i];
-        return true; // Necessary sends and updates still must be done!
+Game.prototype.addPlayer = function(player, create) {
+    if (player === null) return false;
+    var p = this.getPlayer(player);
+    if (p === null && this.players.length >= Game.MAX_PLAYERS) return false; // Game is full
+    
+    // Acknowledge the join
+    if (create) {
+        player.socket.emit("created", this.toJSON());
     } else {
-        return false;
+        player.socket.emit("joined", this.toJSON());
     }
+    
+    // Send a list of players before the join
+    for (var i=0; i<this.players.length; i++) {
+        player.socket.emit("join", this.players[i].toJSON());
+    }
+    
+    // Check if the player is already known or entirely new
+    if (p !== null) {
+        // If already known, set to connected and update
+        p.player = player;
+        this.send("update", p.toJSON());
+        // Then send a full update in case of a reconnect
+        var cards = [];
+        for (i=0; i<p.whites.length; i++) {
+            cards.push(p.whites[i]);
+        }
+        player.socket.emit("cards", {
+            "clear": true,
+            "add": cards,
+            "running": this.running,
+            "black": this.card,
+            "playerInCharge": (this.playerInCharge !== null) ? this.playerInCharge.toJSON() : null
+        });
+        console.info("[Game "+this+"] Added already known player "+p);
+    } else {
+        // If an entirely new player, add and notify
+        p = new PlayerInGame(player);
+        this.players.push(p);
+        this.send("join", p.toJSON()); // Notifies everyone including self about the join
+        console.info("[Game "+this+"] Added new player "+p);
+    }
+    return true;
 };
 
 /**

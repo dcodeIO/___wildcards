@@ -1,2 +1,8 @@
 User-agent: *
-Disallow: /assets/
+Disallow: /assets/audio/
+Disallow: /assets/css/
+Disallow: /assets/i18n/
+Disallow: /assets/img/
+Disallow: /assets/js/
+
+Sitemap: http://www.wildcardsgame.com/sitemap.xml

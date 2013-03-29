@@ -1,5 +1,5 @@
 /*
- wildcardsgame (c) 2013 Daniel Wirtz <dcode@dcode.io>
+ wildcards (c) 2013 Daniel Wirtz <dcode@dcode.io>
 
  Licensed under Creative Commons Attribution-NonCommercial-ShareAlike 2.0
 
@@ -78,31 +78,11 @@ Player.prototype.joinGame = function(gameId) {
     if (typeof gameId == 'string') {
         var game = this.server.getGame(gameId);
         if (game !== null) {
-            if (game.addInvitedPlayer(this)) {
+            if (game.addPlayer(this)) { // Fails only if the game is full
                 this.game = game;
-                this.socket.emit("joined", this.game.toJSON());
-                var p;
-                for (var i=0; i<this.game.players.length; i++) {
-                    p = this.game.players[i];
-                    this.socket.emit("join", p.toJSON());
-                }
-                // Update cards if reconnected
-                p = this.game.getPlayer(this);
-                var cards = [];
-                for (i=0; i<p.whites.length; i++) {
-                    cards.push(p.whites[i]);
-                }
-                this.socket.emit("cards", {
-                    "clear": true,
-                    "add": cards,
-                    "running": this.game.running,
-                    "black": this.game.card,
-                    "playerInCharge": (this.game.playerInCharge) ? this.game.playerInCharge.toJSON() : null
-                });
-                this.game.updatePlayer(this, /* except to */ this);
                 this.socket.on("chat", this.chat.bind(this));
             } else {
-                this.socket.emit("joined", "notinvited");
+                this.socket.emit("joined", "full");
             }
         } else {
             this.socket.emit("joined", "notfound");
@@ -125,8 +105,7 @@ Player.prototype.createGame = function(data) {
     this.game = this.server.createGame(data.lang, this); // Prints info, sets host
     try {
         this.game.init(); // Throws if lang is invalid etc.
-        this.socket.emit("created", this.game.toJSON());
-        this.game.addPlayer(this); // Emits a join
+        this.game.addPlayer(this, true); // Emits "created" + a join
         
         // Allow the host to invite friends
         this.socket.on("invite", function(friends) {
