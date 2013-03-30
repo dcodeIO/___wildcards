@@ -14,15 +14,15 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#f5f5f5',GradientType=0 ); /* IE6-9 */
 }
 .header {
-    border-bottom: 5px solid #5c5c5c;
+    margin-top: 41px;
     position: relative;
     height: 150px;
-    background: #000 url(../img/bg-low.jpg) center center no-repeat;
+    background: #090909 url(../img/bg-low.jpg) center center no-repeat;
     color: #fff;
     text-align: left;
 }
 .header h1 { display: none; }
-.header h2 { vertical-align: bottom; width: 550px; font-size: 50px; position: absolute; bottom: 20px; margin-left: 60px; line-height: 45px; }
+.header h2 { vertical-align: bottom; width: 550px; font-size: 50px; position: absolute; bottom: 18px; margin-left: 60px; line-height: 45px; text-shadow: 0 0 3px #999; }
 .header h3 { display: none; }
 
 .social { height: 35px; }
@@ -36,6 +36,7 @@ body {
     border-top: 1px solid #fff;
     padding: 20px;
 }
+.content h3 { text-shadow: 0 0 2px #999; }
 .footer { text-align: center; padding-top: 30px; }
 .footer .credit { font-size: 12px; }
 .footer a { color: #666; }

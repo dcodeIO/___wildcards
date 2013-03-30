@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>___wildcards - Cards Generator</title>
+<meta name="description" content="Generate your own printable cards online." />
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<style type="text/css">
+body { padding-top: 42px; }
+#cards { text-align: center; }
+#cards .card { text-align: left; vertical-align: top; width: 4.32cm; height: 6.3cm; border: 1px dashed #999; margin-right: -1px; margin-bottom: -1px; display: inline-block; font-size: 1em; font-weight: bold; padding: 0.25cm; }
+#cards .card-black { background: #000; color: #fff; }
+
+@media print {
+    body { padding-top: 0; }
+    .navbar { display: none; }
+    #cards .card-black { border-top: 0.5cm solid #000; height: 5.8cm; }
+}
+</style>
+<script>
+function parse(c, black) {
+    c = c.replace(/^\s+|\s+$/g, "").
+          replace(/\r/g, "").
+          replace(/[ ]+/g, " ");
+    if (black) c = c.replace(/_+\s?/g, "_____ ");
+    if (c == "") return [];
+    c = c.split("\n");
+    var res = [];
+    for (var i=0; i<c.length; i++) {
+        c[i] = c[i].replace(/^\s+|\s+$/g, "");
+        if (c[i] !== "") {
+            res.push(c[i]);
+        }
+    }
+    return res;
+}
+function generate() {
+    var b = $('#blacks').val();
+    b = parse(b, true);
+    var w = $('#whites').val();
+    w = parse(w, false);
+    var elem = $('#cards');
+    elem.empty();
+    var i, e;
+    for (i=0; i<b.length; i++) {
+        e = $('<div class="card card-black" />');
+        e.text(b[i]);
+        elem.append(e);
+    }
+    for (i=0; i<w.length; i++) {
+        e = $('<div class="card card-white" />');
+        e.text(w[i]);
+        elem.append(e);
+    }
+}
+</script>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <a class="brand" href="/">___wildcards Generator</a>
+        <ul class="nav">
+            <li><a href="#entercards" role="button" data-toggle="modal"><i class="icon-pencil"></i> Enter cards</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="cards">
+    <h2 class="muted" style="text-align: center; padding-top: 150px">No cards selected.</h2>
+</div>
+
+<div id="entercards" class="modal hide">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Please enter the cards you want to generate</h3>
+    </div>
+    <div class="modal-body">
+        <strong>Black Cards, one per line:</strong><br />
+        <textarea id="blacks" style="width: 97%; height: 125px"></textarea><br />
+        <strong>White Cards, one per line:</strong><br />
+        <textarea id="whites" style="width: 97%; height: 125px"></textarea>        
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary" onclick="generate(); $('#entercards').modal('hide'); return false">Generate these!</a>
+    </div>
+</div>
+
+<!-- Bootstrap -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+</body>
+</html>
