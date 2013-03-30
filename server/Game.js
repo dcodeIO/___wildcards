@@ -16,6 +16,7 @@
  http://creativecommons.org/licenses/by-nc-sa/2.0/
  */
 
+// Game includes
 var Player = require(__dirname+"/Player.js"),
     PlayerInGame = require(__dirname+"/PlayerInGame.js");
 
@@ -43,17 +44,17 @@ var Game = function(server, id, lang, host) {
     this.id = id;
     
     /**
-     * Language played.
+     * Language played as language key.
      * @type {string}
      */
     this.lang = lang;
-    
+
     /**
-     * Hosting Player.
+     * Game host.
      * @type {Player}
      */
     this.host = host; // Player!
-    
+
     /**
      * Cards database.
      * @type {Cards}
@@ -64,75 +65,43 @@ var Game = function(server, id, lang, host) {
      * Participating or invited players.
      * @type {Array.<PlayerInGame>}
      */
-    this.players = []; // PlayerInGame!
-    
+    this.players = []; // PlayerInGame[]!
+
     /**
-     * Player currently playing the black card.
-     * @type {PlayerInGame}
+     * Whether this Game is private and can only be joined when the game id is known.
+     * @type {boolean}
      */
-    this.playerInCharge = null; // PlayerInGame!
-    
+    this.private = false;
+
     /**
-     * Current black card.
-     * @type {string}
-     */
-    this.card = null;
-    
-    /**
-     * Whether currently running (started) or not (stopped).
+     * Wherther the game is running or not.
      * @type {boolean}
      */
     this.running = false;
-};
 
-/**
- * Minimum number of players.
- * @type {number}
- */
-Game.MIN_PLAYERS = 2; // 3 are better ofc, but let's not restrict that too much
+    /**
+     * Player currently in charge.
+     * @type {PlayerInGame}
+     */
+    this.playerInCharge = null; // PlayerInGame!
 
-/**
- * Maximum number of players.
- * @type {number}
- */
-Game.MAX_PLAYERS = 9;
+    /**
+     * Currently played black card.
+     * @type {string|null}
+     */
+    this.card = null;
 
-/**
- * Number of white cards per player.
- * @type {number}
- */
-Game.NUM_CARDS = 8; // Usually 10, but there's only place enough for 8
+    /**
+     * Currently showing cards selected by all players.
+     * @type {Array.<Array<string>>}
+     */
+    this.selections = null;
 
-/**
- * Pick timeout in seconds.
- * @type {number}
- */
-Game.PICK_TIMEOUT = 30*1000;
-
-/**
- * Select timeout in seconds.
- * @type {number}
- */
-Game.SELECT_TIMEOUT = 60*1000;
-
-/**
- * Evaluate timeout in seconds.
- * @type {number}
- */
-Game.EVALUATE_TIMEOUT = 60*1000;
-
-/**
- * Converts this Game to a JSON payload.
- * @return {{id: string, lang: string, host: {id: string, name: string}, minplayers: number, maxplayers: number}}
- */
-Game.prototype.toJSON = function() {
-    return {
-        "id": this.id,
-        "lang": this.lang,
-        "host": this.host.toJSON(),
-        "minplayers": Game.MIN_PLAYERS,
-        "maxplayers": Game.MAX_PLAYERS
-    };
+    /**
+     * Timeout counter. -1 if there is currently no timer.
+     * @type {number}
+     */
+    this.timer = -1;
 };
 
 /** ID characters */
@@ -152,13 +121,86 @@ Game.generateId = function() {
 };
 
 /**
+ * Minimum number of players.
+ * @type {number}
+ */
+Game.MIN_PLAYERS = 2; // 3 are better ofc, but let's not restrict that too much
+
+/**
+ * Maximum number of players.
+ * @type {number}
+ */
+Game.MAX_PLAYERS = 9;
+
+/**
+ * Number of white cards per player.
+ * @type {number}
+ */
+Game.NUM_CARDS = 10;
+
+/**
+ * Pick timeout in seconds.
+ * @type {number}
+ */
+Game.PICK_TIMEOUT = 10;
+
+/**
+ * Select timeout in seconds.
+ * @type {number}
+ */
+Game.SELECT_TIMEOUT = 30;
+
+/**
+ * Evaluate timeout in seconds.
+ * @type {number}
+ */
+Game.EVALUATE_TIMEOUT = 30;
+
+/**
+ * Called once per second.
+ */
+Game.prototype.onTick = function() {
+    if (this.timer > 0) this.timer--;
+};
+
+/**
+ * Converts this Game to a JSON payload.
+ * @param {boolean=} includePrivate Whether to include private fields or not
+ * @return {{id: string, lang: string}}
+ */
+Game.prototype.toJSON = function(includePrivate) {
+    return {
+        "id": !this.private || !!includePrivate ? this.id : null,
+        "lang": this.lang,
+        "host": this.host.toJSON(),
+        "private": this.private,
+        "running": this.running,
+        "players": this.getNumConnectedPlayers()
+    };
+};
+
+/**
+ * Converts this Game's state to a JSON payload.
+ * @return {{running: boolean, playerInCharge: {id: string, name: string}, card: string|null, selections:Array.<Array.<string>>|null, timer: number}}
+ */
+Game.prototype.stateToJSON = function() {
+    return {
+        "running": this.running, // If the game is running or not
+        "playerInCharge": this.playerInCharge, // Player currently in charge
+        "card": this.card, // Black card currently played
+        "selections": this.selections, // Selections of all players
+        "timer": this.timer // Current timer
+    };
+};
+
+/**
  * Initializes the Game.
  * @throws {Error} If anything goes wrong
  */
 Game.prototype.init = function() {
     var cards = this.server.getCards(this.lang);
     if (!cards) {
-        throw(new Error("[Game] No cards for language "+this.lang));
+        throw(new Error("There are no cards for language "+this.lang));
     }
     this.cards = cards;
     console.info("[Game "+this+"] Initialized with cards "+this.cards);
@@ -168,24 +210,20 @@ Game.prototype.init = function() {
  * Sends an event to all connected players.
  * @param {string} name Event name
  * @param {*} data Event data
- * @param {PlayerInGame=} except To everyone else but except
+ * @param {(Array.<PlayerInGame>|PlayerInGame)=} except To everyone else but except
  */
 Game.prototype.send = function(name, data, except) {
+    if (typeof except != 'undefined') {
+        if (!(except instanceof Array)) {
+            except = [except];
+        }
+    } else {
+        except = null;
+    }
     for (var i=0; i<this.players.length; i++) {
         var p = this.players[i];
-        if (p != except) p.send(name, data); // May not send if not connected
+        if (except === null || except.indexOf(p) < 0) p.send(name, data); // May not send if not connected
     }
-};
-
-/**
- * Sends an event to a PlayerInGame.
- * @param {PlayerInGame} player
- * @param {string} name Event name
- * @param {*} data Event data
- * @return {boolean} true if sent, false if not connected
- */
-Game.prototype.sendTo = function(player, name, data) {
-    return player.send(name, data);
 };
 
 /**
@@ -266,17 +304,19 @@ Game.prototype.addPlayer = function(player, create) {
     if (player === null) return false;
     var p = this.getPlayer(player);
     if (p === null && this.players.length >= Game.MAX_PLAYERS) return false; // Game is full
+    if (create && !player.isConnected()) return false; // What for?
     
-    // Acknowledge the join
-    if (create) {
-        player.socket.emit("created", this.toJSON());
-    } else {
-        player.socket.emit("joined", this.toJSON());
-    }
-    
-    // Send a list of players before the join
-    for (var i=0; i<this.players.length; i++) {
-        player.socket.emit("join", this.players[i].toJSON());
+    if (player.isConnected()) { // Not just a placeholder
+        // Acknowledge the join
+        if (create) {
+            player.socket.emit("created", this.toJSON());
+        } else {
+            player.socket.emit("joined", this.toJSON());
+        }
+        // Send a list of players before the join
+        for (var i=0; i<this.players.length; i++) {
+            player.socket.emit("join", this.players[i].toJSON());
+        }
     }
     
     // Check if the player is already known or entirely new
@@ -289,19 +329,22 @@ Game.prototype.addPlayer = function(player, create) {
         for (i=0; i<p.whites.length; i++) {
             cards.push(p.whites[i]);
         }
-        player.socket.emit("cards", {
-            "clear": true,
-            "add": cards,
-            "running": this.running,
-            "black": this.card,
-            "playerInCharge": (this.playerInCharge !== null) ? this.playerInCharge.toJSON() : null
-        });
+        if (player.isConnected()) {
+            player.socket.emit("cards", {
+                "clear": true,
+                "add": cards
+            });
+            player.socket.emit("state", this.stateToJSON());
+        }
         console.info("[Game "+this+"] Added already known player "+p);
     } else {
         // If an entirely new player, add and notify
         p = new PlayerInGame(player);
         this.players.push(p);
         this.send("join", p.toJSON()); // Notifies everyone including self about the join
+        if (player.isConnected()) {
+            player.socket.emit("state", this.stateToJSON());
+        }
         console.info("[Game "+this+"] Added new player "+p);
     }
     return true;
@@ -315,7 +358,8 @@ Game.prototype.addPlayer = function(player, create) {
 Game.prototype.removePlayer = function(player) {
     player = this.getPlayer(player); // Ensure PlayerInGame
     if (player === null) return false;
-    if (player == this.playerInCharge) return false; // Cannot kick playerInCharge
+    player.player = null; // Mark as disconnected
+    if (player == this.playerInCharge) return false; // Cannot remove playerInCharge entirely until the round is played
     var i = this.players.indexOf(player);
     if (i < 0) return false;
     this.send("left", player.toJSON());
@@ -357,8 +401,8 @@ Game.prototype.chat = function(player, message) {
     player = this.getPlayer(player); // Ensure PlayerInGame
     if (player !== null) {
         this.send("chat", {
-            player: player.toJSON(),
-            message: message
+            "player": player.toJSON(),
+            "message": message
         });
     }
 };
@@ -371,7 +415,6 @@ Game.prototype.chat = function(player, message) {
 Game.prototype.onDisconnect = function(player) {
     player = this.getPlayer(player); // Ensure PlayerInGame
     if (player == null) return false;
-    if (!player.isConnected()) return true;
     player.player = null; // Set to not connected
     var nConnected = this.getNumConnectedPlayers();
     if (nConnected == 0) {
@@ -397,6 +440,10 @@ Game.prototype.onDisconnect = function(player) {
     return true;
 };
 
+//
+// Game State Management
+//
+
 /**
  * Starts the game.
  * @throws {Error} If the language is no longer available
@@ -405,10 +452,20 @@ Game.prototype.start = function() {
     if (this.running || this.players.length < Game.MIN_PLAYERS) return;
     if (this.cards === null || this.cards.black.length == 0 || this.cards.white.length == 0) {
         this.init(); // Reinitialize
+        for (var i=0; i<this.players.length; i++) {
+            this.players[i].whites = [];
+            this.players[i].send("cards", {
+                "clear": true // Reset all remaining cards
+            });
+        }
     }
     console.info("[Game "+this+"] Started");
+    // Reset everything
     this.running = true;
-    this.send("started", {});
+    this.playerInCharge = null;
+    this.card = null;
+    this.timer = -1;
+    this.send("state", this.stateToJSON());
     this.nextRound();
 };
 
@@ -430,7 +487,6 @@ Game.prototype.getNextPlayer = function(player) {
         }
         // Should not happen, game is destroyed before
         console.warn("[Game "+this+"] Cannot find next player: There are no connected players - ERROR");
-        this.stop();
         return null;
     } else {
         i = this.findPlayer(player);
@@ -451,6 +507,7 @@ Game.prototype.getNextPlayer = function(player) {
  */
 Game.prototype.nextRound = function() {
     if (!this.running) return;
+    this.timer = Game.PICK_TIMEOUT;
     this.playerInCharge = this.getNextPlayer(this.playerInCharge);
     if (this.playerInCharge == null || !this.playerInCharge.isConnected()) {
         // Should not happen
@@ -458,6 +515,10 @@ Game.prototype.nextRound = function() {
         this.stop();
         return;
     }
+    this.send("state", this.stateToJSON());
+    this.card = null; // ^ show this till something new is picked
+    this.selections = null;
+    this.playerInCharge.send("nudge", "pick");
     console.info("[Game "+this+"] Starting next round: playerInCharge="+this.playerInCharge);
     // Fill up cards
     var total = 0;
@@ -484,10 +545,6 @@ Game.prototype.nextRound = function() {
         }
     }
     if (total > 0) console.info("[Game "+this+"] Filled up "+total+" cards");
-    this.send("pick", {
-        "player": this.playerInCharge.toJSON(),
-        "timeout": Game.PICK_TIMEOUT
-    });
     var to = null;
     var doPick = function(afterTimeout) {
         if (to) { clearTimeout(to); to = null; }
@@ -497,15 +554,14 @@ Game.prototype.nextRound = function() {
         this.card = this.cards.pickBlack();
         if (this.card === null) {
             console.info("[Game "+this+"] No more black cards. Stopping... ");
-            this.send("outofblack", {});
-            this.stop();
+            this.stop("outofblack");
             return;
         }
         console.info("[Game "+this+"] Picked black: "+this.card+(afterTimeout ? " after timeout" : ""));
         this.playRound();
     };
     if (this.playerInCharge.isConnected()) {
-        to = setTimeout(doPick.bind(this, true), Game.PICK_TIMEOUT);
+        to = setTimeout(doPick.bind(this, true), Game.PICK_TIMEOUT*1000);
         this.playerInCharge.player.socket.on("pick", doPick.bind(this, false));
     } else {
         (doPick.bind(this))(true);
@@ -519,15 +575,15 @@ Game.prototype.playRound = function() {
     if (!this.running) return;
     if (this.playerInCharge === null || this.card === null) {
         console.warn("[Game "+this+"] Failed to play round: No player or card - ERROR");
-        this.stop();
+        this.stop("noplayerorcard");
         return;
     }
     console.info("[Game "+this+"] Playing round with card: "+this.card);
-    this.send("select", {
-        "player": this.playerInCharge.toJSON(),
-        "card": this.card,
-        "timeout": Game.SELECT_TIMEOUT
-    });
+    // this.card has already been set
+    this.selections = null;
+    this.timer = Game.SELECT_TIMEOUT;
+    this.send("state", this.stateToJSON());
+    
     /** @type {Array.<PlayerInGame>} */
     var selecting = [];
     /** @type {Array.<{player: PlayerInGame, cards: Array.<string>}>} */
@@ -538,6 +594,7 @@ Game.prototype.playRound = function() {
         if (p.isConnected() && p != this.playerInCharge) {
             (function(player) {
                 selecting.push(player); // This player is selecting
+                player.send("nudge", "select");
                 var to = null;
                 
                 var doSelect = function(afterTimeout, which) { // Perform selection
@@ -607,7 +664,7 @@ Game.prototype.playRound = function() {
                 };
                 
                 if (player.isConnected()) {
-                    to = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT+3000 /* tolerate last minute decisions :-) */);
+                    to = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
                     player.player.socket.on("select", doSelect.bind(this, false));
                 } else {
                     (doSelect.bind(this))(true);
@@ -640,16 +697,17 @@ Game.prototype.evaluateRound = function(selections) {
     if (this.playerInCharge === null) {
         // Should not happen
         console.error("[Game "+this+"] Failed to evaluate round: No playerInCharge");
-        this.stop();
+        this.stop("noplayerincharge");
         return;
     }
     selections.shuffle(); // Shuffle selections
-    var sel = []; // Anonymize selections
+    this.selections = []; // Anonymize selections
     for (var i=0; i<selections.length; i++) {
-        sel[i] = selections[i]["cards"];
+        this.selections[i] = selections[i]["cards"];
     }
-    console.info("[Game "+this+"] Evaluating round: playerInCharge="+this.playerInCharge+", "+sel.length+" selections");
-    this.send("selected", sel);
+    console.info("[Game "+this+"] Evaluating round: playerInCharge="+this.playerInCharge+", "+this.selections.length+" selections");
+    this.send("state", this.stateToJSON()); // Display selections
+    this.playerInCharge.send("nudge", "evaluate");
     var to = null;
     var doEval = function(afterTimeout, winnerIndex) {
         if (this.playerInCharge.isConnected()) {
@@ -668,10 +726,9 @@ Game.prototype.evaluateRound = function(selections) {
         this.send("winner", winner); // Contains player, cards and index
         winner.player.score++;
         this.updatePlayer(winner.player);
-        this.card = null;
         setTimeout(this.nextRound.bind(this), 3000); // Show for at least 3 sec
     };
-    to = setTimeout(doEval.bind(this, true), Game.EVALUATE_TIMEOUT+3000 /* tolerate last minute decisions :-) */);
+    to = setTimeout(doEval.bind(this, true), Game.EVALUATE_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
     if (this.playerInCharge.isConnected()) {
         this.playerInCharge.player.socket.on("winner", doEval.bind(this, false));
     }
@@ -679,11 +736,12 @@ Game.prototype.evaluateRound = function(selections) {
 
 /**
  * Stops the game.
+ * @param {string=} reason
  */
-Game.prototype.stop = function() {
+Game.prototype.stop = function(reason) {
     if (!this.running) return;
     this.running = false;
-    this.send("stopped", {});
+    this.send("stopped", typeof reason != 'undefined' ? reason : null);
 };
 
 Game.prototype.toString = function() {

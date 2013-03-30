@@ -120,7 +120,7 @@ var Client = (function(global, io) {
         this.cards = [];
 
         /**
-         * Selected white cards to play.
+         * Locally selected white cards to play.
          * @type {Array}
          */
         this.selection = null;
@@ -130,6 +130,12 @@ var Client = (function(global, io) {
          * @type {Array.<Array.<string>>}
          */
         this.selections = null;
+
+        /**
+         * Winner of the last round.
+         * @type {{id:string, name: string, connected: boolean}}
+         */
+        this.winner = null;
 
         /**
          * Internationalization.
@@ -176,6 +182,12 @@ var Client = (function(global, io) {
      * Initializes the game.
      */
     Client.prototype.init = function() {
+        // Preload some stuff
+        (new Image()).src = "/assets/img/white-hover.png";
+        (new Image()).src = "/assets/img/white-selected.png";
+        (new Image()).src = "/assets/img/kick-hover.png";
+        
+        // Connect
         this.connect(function() {
 
             // FB apprequest redirect
@@ -363,7 +375,6 @@ var Client = (function(global, io) {
         log("Switching to game view");
         $('#alert').alert("close");
         location.href = "#"+this.game.id;
-        $('#header').addClass("header-low");
         $('#teaser').hide();
         $('#game').show();
         $('#game-link').val(location.href);
@@ -380,10 +391,7 @@ var Client = (function(global, io) {
             this.players.push(player);
             this.updatePlayers();
             if (doSelect) {
-                $('#game-invite').show();
-                this.select();
-            } else if (first) {
-                $('#game-invite').hide();
+                this.selectFriends();
             }
         }.bind(this));
 
@@ -418,7 +426,7 @@ var Client = (function(global, io) {
             log("S->C chat: "+data["player"]["name"]+": "+data["message"]);
             var msg = nohtml(data["message"]);
             var self = (data["player"]["id"] == this.me["id"]);
-            var ce = $('<div class="message"><strong class="name'+(self ? ' self' : '')+'">'+data["player"]["name"]+'</strong> <span class="text">'+msg+'</span></div>');
+            var ce = $('<div class="message"><img src="https://graph.facebook.com/'+data["player"]["id"]+'/picture" class="avatar"/> <strong class="name'+(self ? ' self' : '')+'">'+data["player"]["name"]+'</strong> <span class="text">'+msg+'</span></div>');
             var e = $('#game-chat-messages').append(ce);
             e[0].scrollTop = Math.max(e[0].scrollHeight, e[0].clientHeight) - e[0].clientHeight;
             Client.playSound("message");
@@ -432,11 +440,33 @@ var Client = (function(global, io) {
         }.bind(this));
         
         // Game stopped
-        this.socket.on("stopped", function() {
-            log("S->C stopped");
+        this.socket.on("stopped", function(reason) {
+            log("S->C stopped: "+reason);
             this.running = false;
             this.selection = null;
             this.playerInCharge = null;
+            this.updateButtons();
+            if (reason == "outofblack") {
+                Client.showError(this.translate("That's it!"), this.translate("All the black cards have been played. Start again if you wish!"));
+            }
+        }.bind(this));
+        
+        // State update
+        this.socket.on("state", function(state) {
+            this.running = state["running"];
+            this.playerInCharge = state["playerInCharge"];
+            this.card = state["card"];
+            this.selections = state["selections"];
+            console.log("sel", this.selections);
+            this.timer = state["timer"];
+            if (this.card === null || this.selections !== null) {
+                this.selection = null;
+            }
+            if (this.selections === null) {
+                this.winner = null;
+            }
+            this.updatePlayers();
+            this.updateCards();
             this.updateButtons();
         }.bind(this));
         
@@ -445,26 +475,9 @@ var Client = (function(global, io) {
             log("S->C cards");
             var i, idx;
             // On reconnect only (e.g. a full update)
-            var updateAll = false;
             if (data["clear"]) {
                 log("Clearing cards");
-                updateAll = true;
                 this.cards = [];
-            }
-            if (typeof data["card"] != 'undefined') {
-                log("Setting current card: "+data["card"]);
-                updateAll = true;
-                this.card = data["card"];
-            }
-            if (typeof data["playerInCharge"] != 'undefined') {
-                log("Setting player in charge: "+data["playerInCharge"]);
-                updateAll = true;
-                this.playerInCharge = data["playerInCharge"];
-            }
-            if (typeof data["running"] != 'undefined') {
-                log("Setting running: "+data["running"]);
-                updateAll = true;
-                this.running = data["running"];
             }
             // As usual
             if (data["del"] && data["del"].length > 0) {
@@ -482,63 +495,21 @@ var Client = (function(global, io) {
                     this.cards.push(data["add"][i]);
                 }
             }
-            if (updateAll) {
-                log("Updating everything");
-                this.updatePlayers();
-                this.updateCards();
-            }
             this.updateMyCards();
         }.bind(this));
         
-        // New round: Picking Black...
-        this.socket.on("pick", function(data) {
-            log("S->C pick: playerInCharge="+data["player"]["id"]+"/"+data["player"]["name"]);
-            this.card = null;
-            this.selection = null;
-            this.playerInCharge = data["player"];
-            this.timeout = (new Date().getTime()) + data["timeout"];
-            if (this.me["id"] == this.playerInCharge["id"]) {
-                Client.playSound("nudge");
-            }
-            this.updatePlayers();
-        }.bind(this));
-        
-        // No more black cards. Stopped afterwards.
-        this.socket.on("outofblack", function() {
-            log("S->C outofblack");
-            Client.showError(this.translate("That's it!"), this.translate("All the black cards have been played. Start again if you wish!"));
-        });
-        
-        // Select card(s) for the picked black
-        this.socket.on("select", function(data) {
-            if (this.playerInCharge === null) {
-                this.playerInCharge = data["player"]; // If a newly joined player has missed it
-                this.updatePlayers();
-            }
-            this.selections = null;
-            this.card = data["card"];
-            log("S->C select: card='"+this.card+"' by "+this.playerInCharge);
-            this.timeout = (new Date().getTime()) + data["timeout"];
-            if (this.playerInCharge["id"] != this.me["id"]) {
-                this.selection = []; // Array = marker to allow selecting
-                Client.playSound("nudge");
-            } else {
-                this.selection = null;
-            }
-            this.updateCards(); // Display the black card
-            this.updateButtons(); // Players with selection!==null will be allowed to select, everyone else waits
-        }.bind(this));
-        
-        // Anonymized and shuffled player selections. PlayerInCharge decides on the index.
-        this.socket.on("selected", function(data) {
-            log("S->C selected: "+data.length+" players");
-            this.playerInCharge["chose"] = true;
-            this.selected = null; // No more selections
-            this.selections = data; // All players' selections for display
-            this.updateCards();
-            this.updateButtons(); // Player in charge will be allowed to chose)
-            if (this.me["id"] == this.playerInCharge["id"]) {
-                Client.playSound("nudge");
+        // Nudged by the server, do something!
+        this.socket.on("nudge", function(reason) {
+            log("S->C nudge");
+            Client.playSound("nudge");
+            if (reason == "pick") {
+                this.card = null;
+                this.updateButtons();
+            } else if (reason == "select") {
+                this.selection = [];
+                this.updateButtons();
+            } else if (reason == "evaluate") {
+                this.updateButtons();
             }
         }.bind(this));
         
@@ -548,6 +519,7 @@ var Client = (function(global, io) {
             var index = data.index;
             $('#game-cards h3').text(this.translate("%name% wins!", { "name": player["name"] }));
             $('#selection'+index+' .card-white').addClass("selected");
+            this.winner = player;
         }.bind(this));
     };
 
@@ -555,7 +527,15 @@ var Client = (function(global, io) {
      * Switches to the home view (reloads).
      */
     Client.prototype.switchHome = function() {
-        location.href = location.protocol+"//"+location.host;
+        
+        // Not used
+        
+        if (this.socket) {
+            this.socket.removeAllListeners("disconnect");
+            this.socket.disconnect();
+            this.socket = null;
+        }
+        location.hash = "";
     };
 
     /**
@@ -700,7 +680,7 @@ var Client = (function(global, io) {
     /**
      * Selects friends to play with.
      */
-    Client.prototype.select = function() {
+    Client.prototype.selectFriends = function() {
         var doSelect = (function() {
             var exclude = [];
             for (var i=0; i<this.players.length; i++) {
@@ -803,7 +783,8 @@ var Client = (function(global, io) {
         // Display player selections
         if (this.selections !== null) {
             var elem = $('#game-cards');
-            elem.empty().append('<h3>'+this.translate("What made you laugh the most?")+'</h3>');
+            var e = $('#game-cards h3');
+            elem.empty().append('<h3>'+(this.winner != null ? this.translate("%name% wins!", { "name": this.winner["name"] }) : this.translate("What made you laugh the most?"))+'</h3>');
             for (var i=0; i<this.selections.length; i++) {
                 // Show the current black plus every players selection, one selection per row
                 var sel = this.selections[i];
@@ -1126,7 +1107,8 @@ var Client = (function(global, io) {
         $('#selectfriends-button'),
         $('#lang-selectlang'),
         $('#lang-selectlanguage'),
-        $('#lang-chat')
+        $('#lang-chat'),
+        $('#lang-policy')
     ];
 
     /**

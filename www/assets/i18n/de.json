@@ -1,7 +1,7 @@
 {
     "name": "Deutsch",
     "translations": {
-        "A party game for horrible people.": "Ein Party-Spiel für fiese Leute.",
+        "A party game for horrible people.": "Das herrlich unkorrekte Wort-Spiel.",
         "The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.": "Das Spiel ist einfach: Pro Runde stellt ein Spieler eine Frage von einer schwarzen Karte und alle anderen beantworten sie mit ihrer lustigsten weißen Karte. Der Spieler, der die schwarze Karte gespielt hat, entscheidet dann, welche Antwort die beste war.",
         "Select your language": "Wähle deine Sprache",
         "Play with your friends!": "Spiele mit deinen Freunden!",
@@ -34,6 +34,7 @@
         "All the black cards have been played. Start again if you wish!": "Alle schwarzen Karten wurden gespielt. Startet erneut, wenn ihr möchtest!",
         "Disconnected.": "Verbindung unterbrochen.",
         "Your connection to the server has been lost. Reloading the game might help.": "Deine Verbindung zum Server wurde unterbrochen. Vielleicht hilft es, das Spiel neu zu laden.",
+        "Your data will not be stored, just transmitted between you and your friends.": "Deine Daten werden nicht gespeichert, nur zwischen dir und deinen Freunden übertragen.",
         "Next from J.K. Rowling: Harry Potter and the Chamber of _____ .": "Neues von J.K. Rowling: Harry Potter und die Kammer des _____ .",
         "A sausage festival.": "Ein Würstchenfest.",
         "Raping and pillaging.": "Vergewaltigen und Plündern.",

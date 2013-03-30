@@ -155,10 +155,10 @@ Mein Lieblingsfernsehsender ist der, der immer diese Sendungen über _ zeigt.
 Mein Lieblingsrezept ist _ und _ mit einer Prise _ .
 My Little Pony: Freundschaft ist _ .
 Mein Lebensziel ist es, ein Computer-Spiel über _ zu veröffentlichen.
-Mein Zweitwagen ist ein _ .
+Mein Zweitwagen ist _ .
 _ würde ich auch nicht von der Bettkante stoßen.
-Nicht schlägt knuddeln mit _ in meinem Bett.
-Nicht fühlt sich besser an als _ auf _ .
+Nichts schlägt knuddeln mit _ in meinem Bett.
+Nichts fühlt sich besser an als _ auf _ .
 Sie werden nun Zeuge der Zerstörungskraft einer voll geladenen und funktionsfähigen _ .
 Eines Tages werden wir Menschen von _ gebissen und in _ verwandelt.
 Nur _ ist schlimmer als ein Ungläubiger.
@@ -170,13 +170,13 @@ Wissenschaftler haben Alien-Technologie entschlüsselt, die uns Einblicke in das
 _ . Eigentlich solltest du es bereuen, aber insgeheim tust du es nicht.
 Manchmal fühlst du dich wie _ , manchmal aber auch nicht.
 Steine und Stöcke mögen mich verletzen können, _ wird das aber niemals können.
-Hör endlich auf ständig auf mein _ zu starren!
+Hör endlich auf ständig auf _ zu starren!
 Die 1930er Jahre werden oft als das goldene Zeitalter des _ angesehen.
 Das beste Weihnachtsgeschenk meiner Oma bisher war _ .
 Der schönste Moment nach dem Aufstehen ist _ in deiner Tasse.
 Die besten Dinge im Leben bekommt man nur durch _ .
 Die christlische Koalition hat neulich entschieden, dass _ noch eine viel größere Sünde als die gleichgeschlechtliche Ehe ist.
-Der Clown bracht alle Kinder mit seinen Ballon-Tieren in _ -Form zum Lachen.
+Der Clown brachte alle Kinder mit seinen Ballon-Tieren in _ -Form zum Lachen.
 Für mich ist _ der einzige Weg, um einen Orgasmus zu bekommen.
 _ hält mich nachts wach.
 _ sorgt bei mir immer für ein angenehmes Kribbeln.
@@ -212,3 +212,4 @@ Was heißt denn hier _ ? _ !
 Ein einzig Positive in seinem Leben war _ .
 _ + _ = _
 _ . Einmal gepoppt, nie mehr gestoppt.
+Heute in Mathe habe ich _ .
