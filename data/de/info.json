@@ -5,16 +5,39 @@
             "Das herrlich unkorrekte Wort-Spiel.",
         "The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.":
             "Das Spiel ist einfach: Pro Runde stellt ein Spieler eine Frage von einer schwarzen Karte und alle anderen beantworten sie mit ihrer lustigsten weißen Karte. Der Spieler, der die schwarze Karte gespielt hat, entscheidet dann, welche Antwort die beste war.",
-        "Select your language":
-            "Wähle deine Sprache",
+        "Public and private multiplayer for up to 9 players!":
+            "Private und öffentliche Multiplayer-Spiele mit bis zu 9 Spielern!",
+        "Entirely free and open source!":
+            "Komplett kostenlos und Open Source!",
+        "Change language":
+            "Sprache ändern",
         "_____ with your friends!":
             "_____ mit deinen Freunden!",
+        "Public games":
+            "Öffentliche Spiele",
+        "Join":
+            "Beitreten",
+        "Create a new game":
+            "Ein neues Spiel erstellen",
+        "There are currently no public games.":
+            "Es gibt zur Zeit keine öffentlichen Spiele.",
         "Invite your horrible friends":
-            "Lade deine makaberen Freunde ein",
-        "Invite more friends":
-            "Mehr Freunde einladen",
-        "Or use this direct game link:":
-            "Oder verwende diesen direkten Spiel-Link:",
+            "Lade deine schrecklichen Freunde ein",
+        "%n% players":
+            "%n% Spieler",
+        "%n% players online":
+            "%n% Spieler online",
+        "Cards Generator":
+            "Karten-Generator",
+        
+        "Invite friends":
+            "Freunde einladen",
+        "Direct link:":
+            "Direktlink:",
+        "Private":
+            "Privat",
+        "Public":
+            "Öffentlich",
         "How many friends does it take to play? _____ . What's recommended for the full fun? _____ .":
             "Wie viele Freunde braucht's zum Spielen? _____ . Was wird für den vollen Spaß empfohlen? _____ .",
         "Me + one":
@@ -45,8 +68,8 @@
             "Warte auf andere Spieler...",
         "Waiting for the end of the world...":
             "Warte auf das Ende der Welt...",
-        "Gossip":
-            "Gelaber",
+        "Chat":
+            "Plauderei",
         "Type something...":
             "Schreibe etwas...",
         "Sorry":
@@ -58,7 +81,7 @@
         "You cannot join this game for some ridiculous reason. Create a new one instead!":
             "Du kannst dieses Spiel aus einem lächerlichen Grund nicht betreten. Erstelle stattdessen ein neues!",
         "Come on, let's play ___wildcards! A party game for horrible people.":
-            "Komm schon, lass uns ___wildcards spielen! Ein Party-Spiel für makabere Leute.",
+            "Komm schon, lass uns ___wildcards spielen! Das herrlich unkorrekte Wort-Spiel.",
         "That's it!":
             "Das war's!",
         "All the black cards have been played. Start again if you wish!":
@@ -68,7 +91,8 @@
         "Your connection to the server has been lost. Reloading the game might help.":
             "Deine Verbindung zum Server wurde unterbrochen. Vielleicht hilft es, das Spiel neu zu laden.",
         "Your data will not be stored, just transmitted between you and your friends.":
-            "Deine Daten werden nicht gespeichert, nur zwischen dir und deinen Freunden übertragen.",        
+            "Deine Daten werden nicht gespeichert, nur zwischen dir und deinen Freunden übertragen.",
+        
         "Next from J.K. Rowling: Harry Potter and the Chamber of _____ .":
             "Neues von J.K. Rowling: Harry Potter und die Kammer des _____ .",
         "A sausage festival.":

@@ -73,15 +73,13 @@ var Server = function(credentials) {
      * Socket.io HTTP.
      * @type {Object}
      */
-    this.io = io.listen(this.http);
-    this.io.set('log level', 1);
+    this.io = io.listen(this.http, { "log level": 1 });
 
     /**
      * Socket.io HTTPS.
      * @type {Object}
      */
-    this.ioSecure = this.https ? io.listen(this.https) : null;
-    this.ioSecure.set('log level', 1);
+    this.ioSecure = this.https ? io.listen(this.https, { "log level": 1 }) : null;
     
     /**
      * Cards database by language key.
@@ -174,6 +172,10 @@ Server.prototype.start = function() {
     
     // Serve static
     this.app.use(express.static(Server.BASEDIR+"/www"));
+    // Serve dumb FB canvas post
+    this.app.post("/", function(req, res) {
+        res.set("Refresh", "0; url=/");
+    });
     console.info("[Server] Base directory is "+Server.BASEDIR+"/www");
     
     // Accept socket connections
@@ -232,6 +234,15 @@ Server.prototype.updateOnline = function() {
             p.socket.emit("online", this.numConnections);
         }
     }
+};
+
+/**
+ * Tests if a language key is valid.
+ * @param {string} lang Language key
+ * @return {boolean} true if valid, else false
+ */
+Server.prototype.isValidLanguage = function(lang) {
+    return !!this.cards[lang];
 };
 
 /**

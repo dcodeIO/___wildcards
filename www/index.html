@@ -6,82 +6,114 @@
 <meta name="description" content="The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card." />
 <meta name="keywords" content="Cards Against Humanity online, party game, horrible people" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:image" content="http://www.wildcardsgame.com/assets/icon300.jpg" />
+<meta property="og:image" content="/assets/icon300.jpg" />
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
-<link href="assets/css/___.css" rel="stylesheet" />
+<link href="assets/css/wildcards/main.css" rel="stylesheet" />
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
-<body>
+<body><div id="wrap">
 
-<!-- Image for any form of automatically rendered preview -->
-<div style="display: none"><img src="http://www.wildcardsgame.com/assets/icon300.jpg" alt="___wildcards" /></div>
+<!-- Teaching a robot to love. -->
+<div class="hide">
+    <h1>___wildcards</h1>
+    <h2><a href="/play-cards-against-humanity-online.html">Play Cards Against Humanity&trade; online</a></h2>
+    <h2><a href="/blaenk-online-spielen.html">BLÄNK online spielen.</a></h2>
+    <img src="/assets/icon300.jpg" alt="___wildcards" />
+</div>
 
-<div class="navbar navbar-fixed-top">
+<!-- Navbar -->
+<div class="navbar navbar-static-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="/" onclick="return false">___wildcards</a>
-            <ul class="nav pull-right">
-                <li><a href="/cards-generator.html" target="_blank" role="button"><i class="icon-th"></i> Cards Generator</a></li>
+            <a class="brand" href="#">___wildcards</a>
+            <ul class="nav nav-collapse pull-right">
+                <li><a href="/cards-generator.html" target="_blank" role="button"><i class="icon-th"></i> <span id="lang-cardgen">Cards Generator</span></a></li>
+                <!-- What's the most emo? -->
+                <li class="nolink"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fwildcardsgame&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=true&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=162965230532563" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe></li>
+                <li class="nolink"><iframe allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fwww.wildcardsgame.com" style="width:95px; height:20px;"></iframe></li>
+                <li class="nolink" style="width: 75px"><script type="text/javascript" src="http://apis.google.com/js/plusone.js">{'parsetags': 'explicit'}</script><g:plusone href="http://www.wildcardsgame.com" size="medium"></g:plusone><script type="text/javascript">gapi.plusone.go();</script></li>
+                <li class="nolink"><iframe src="http://ghbtns.com/github-btn.html?user=dcodeIO&repo=___wildcards&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="20"></iframe></li>
+            </ul>
+            <ul class="nav pull-right">             
+                <li><a><i class="icon-user"></i> <span id="onlinecount"></span></a></li>
             </ul>
         </div>
     </div>
 </div>
-
-<!-- Static header -->
-<div id="header" class="header">
-    <div class="container">
-        <h1>___wildcards</h1>
-        <h2 id="lang-title">A party game for horrible people.</h2>
-        <h3><a href="/play-cards-against-humanity-online.html">Play Cards Against Humanity&trade; online</a></h3>
-        <h3><a href="/blaenk-online-spielen.html">BLÄNK online spielen.</a></h3>
-    </div>
-</div>
-
-<!-- Content pages -->
-<div class="content">
     
-    <!-- Global alert on top -->
-    <div id="alert" class="container alert alert-block alert-error fade in">
+<!-- Content -->
+<div class="container page">
+
+    <!-- Alert -->
+    <div class="alert hide">
         <strong id="alert-title">Warning!</strong> <span id="alert-message">Best check yo self, you're not looking too good.</span>
         <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     
-    <!-- Teaser -->
-    <div id="teaser" class="container">
-        <h3 id="lang-desc">The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.</h3>
-        <div id="teaser-cards" class="cards"></div>
-        <div style="text-align: center; padding-top: 50px">
-            <a class="btn btn-large" href="#" onclick="client.selectLanguage(); return false"><i class="icon-globe" style="margin-top: 3px"></i> <span id="lang-selectlang">Select your language</span></a> &nbsp;
-            <a class="btn btn-large btn-primary" href="#" onclick="client.loginAndCreate(); return false"><img src="assets/img/fb-icon.png" style="margin-top: -3px"/> <span id="lang-login">_____ with your friends!</span></a>
-            <p class="muted" style="padding-top: 15px" id="lang-policy">Your data will not be stored, just transmitted between you and your friends.</p>
+    <!-- Home -->
+    <div id="home">
+
+        <div class="header">
+            <h2 id="lang-title">A party game for horrible people.</h2>
+            <p id="lang-desc">The game is simple: Each round, one player asks a question from a Black Card, and everyone else answers with their funniest White Card. The player who has played the Black Card then decides which answer is the funniest.</p>
+        </div>
+        
+        <div class="content">
+            <div class="fbbox">
+                <iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fwildcardsgame&amp;width=400&amp;height=440&amp;show_faces=false&amp;colorscheme=light&amp;stream=true&amp;border_color&amp;header=false&amp;appId=162965230532563" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:400px; height:440px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="teaser">
+                <p><i class="icon-share-alt"></i> <span id="lang-features1">Public and private multiplayer for up to 9 players!</span></p>
+                <p><i class="icon-share-alt"></i> <span id="lang-features2">Entirely free and open source!</span></p>
+                <div id="teaser-cards" class="cards"></div>
+                <div class="buttons">
+                    <a class="btn btn-large" href="#" onclick="client.selectLanguage(); return false"><i class="icon-globe" style="margin-top: 3px"></i> <span id="lang-selectlang">Change language</span></a> &nbsp;
+                    <a class="btn btn-large btn-primary" href="#" onclick="client.loginAndList(); return false"><img src="assets/img/fb-icon.png" style="margin-top: -3px"/> <span id="lang-login">_____ with your friends!</span></a>
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- Game view -->
-    <div id="game" class="container" style="display: none">
-        <div id="game-players" class="players">
-        </div>
-        <div id="game-invite" class="buttons">
-            <a class="btn" href="#" onclick="client.selectFriends(); return false" id="lang-invitemore">Invite more friends</a> &nbsp;
-            <span id="lang-gamelink">Or use this direct game link:</span> <input id="game-link" type="text" readonly="true" onclick="this.select()" style="margin-bottom: 0; width: 400px"/>
-        </div>
-        <div id="game-cards">
-            <!-- Updated dynamically. Usually contains one black card or all players' selections. -->
-            <div class="cards">
-                <div class="card card-black" id="lang-gamecard1">How many friends does it take to play? _____ . What's recommended for the full fun? _____ .</div>
-                <div class="card card-white" id="lang-gamecard2">Me + one</div>
-                <div class="card card-white" id="lang-gamecard3">I + at least two</div>
-             </div>
-        </div>
-        <div class="buttons">
-            <a id="game-button" class="btn btn-large" disabled="true" href="#" onclick="return false">Waiting for more players...</a>
-        </div>
-        <div id="game-mycards"><!-- Updated dynamically. Contains the local player's cards. --></div>
+    <!-- Game -->
+    <div id="game" class="hide">
         
+        <!-- Game Header -->
+        <div class="header">
+            <h2 id="game-nplayers">Players</h2>
+            <div id="game-players" class="players"></div>
+        </div>
+
+        <div id="game-invite" class="buttons">
+            <a class="btn" href="#" onclick="client.selectFriends(); return false"><i class="icon-glass"></i> <span id="lang-invitemore">Invite friends</span></a> &nbsp;
+            <div class="btn-group">
+                <div class="input-prepend" style="margin-top: 10px">
+                    <span class="add-on" id="lang-gamelink" style="background: #ddd">Direct link:</span>
+                    <input id="game-link" type="text" readonly="true" onclick="this.select()" style="margin-bottom: 0; width: 310px; text-align: center; background: #f5f5f5"/>
+                </div>
+                <a href="#" class="btn" style="margin-left: -2px" disabled="disabled" id="private-btn" onclick="client.togglePrivate(); return false"><i class="icon-ban-circle" id="private-icon"></i> <span id="lang-private">Private</span></a>
+            </div>
+        </div>
+        
+        <!-- Game cards -->
+        <div class="content">
+            <div id="game-cards">
+                <!-- Updated dynamically. Usually contains one black card or all players' selections. -->
+                <div class="cards">
+                    <div class="card card-black" id="lang-gamecard1">How many friends does it take to play? _____ . What's recommended for the full fun? _____ .</div>
+                    <div class="card card-white" id="lang-gamecard2">Me + one</div>
+                    <div class="card card-white" id="lang-gamecard3">I + at least two</div>
+                </div>
+            </div>
+            <div class="buttons">
+                <a id="game-button" class="btn btn-large btn-inverse" disabled="true" href="#" onclick="return false">Waiting for more players...</a>
+            </div>
+            <div id="game-mycards"><!-- Updated dynamically. Contains the local player's cards. --></div>
+        </div>
+
         <!-- Game chat -->
         <div id="game-chat">
-            <a class="title" href="#" onclick="$('#game-chat-toggle').toggle(); return false"><i class="icon-comment"></i> <span id="lang-chat">Gossip</span></a>
+            <a class="title" href="#" onclick="$('#game-chat-toggle').toggle(); return false"><i class="icon-comment"></i> <span id="lang-chat">Chat</span></a>
             <div id="game-chat-toggle">
                 <div id="game-chat-messages"></div>
                 <div id="game-chat-input">
@@ -89,28 +121,16 @@
                 </div>
             </div>
         </div>
+        
     </div>
+    
 </div>
+
+<div class="wrap-push"></div>
+</div><!-- wrap -->
 
 <!-- Static footer -->
 <div class="footer">
-    <div class="social">
-        <div class="container">
-            <div class="box">
-                <span id="onlinecount"></span>
-            </div>
-            <div class="box">
-                <div class="addthis_toolbox addthis_default_style addthis_16x16_style">
-                    <a class="addthis_button_facebook"></a>
-                    <a class="addthis_button_twitter"></a>
-                    <a class="addthis_button_google_plusone_share"></a>
-                    <a class="addthis_button_pinterest_share"></a>
-                    <a class="addthis_button_compact"></a><a class="addthis_counter addthis_bubble_style"></a>
-                    <a class="donate_button" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;item_name=%3C3%20___wildcards&amp;business=info@code-emitter.com"></a>
-                </div>
-            </div>
-        </div>
-    </div>
     <p class="credit muted">
         Created by <a target="_blank" href="http://dcode.io">dcode.io</a> just for the thrill of it.
         All rights belong to their respective owners.
@@ -130,6 +150,20 @@
     </div>
     <div class="modal-footer">
         <span class="text">Can't find your language? <a target="_blank" href="http://github.com/dcodeIO/___wildcards">Contribute!</a></span>
+    </div>
+</div>
+
+<!-- Game select modal -->
+<div id="selectgame" class="modal hide">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="lang-publicgames">Public games</h3>
+    </div>
+    <div class="modal-body">
+        <div id="selectgame-list"></div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-primary" href="#" onclick="client.createGame(); return false" data-dismiss="modal"><i class="icon-plus icon-white"></i> <span id="lang-creategame">Create a new game</span></a>
     </div>
 </div>
 
@@ -154,8 +188,9 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <!-- ___wildcards -->
-<script src="/assets/js/___.js"></script>
-<script src="/assets/js/___teaser.js"></script>
+<script src="/assets/js/wildcards/util.js"></script>
+<script src="/assets/js/wildcards/client.js"></script>
+<script src="/assets/js/wildcards/teaser.js"></script>
 
 <!-- Facebook SDK -->
 <div id="fb-root"></div>
@@ -168,6 +203,7 @@ window.fbAsyncInit = function() {
         "cookie"     : false,
         "xfbml"      : false
     });
+    $("[rel=tooltip]").tooltip();
     client.init();
 };
 (function(d, debug){
@@ -178,9 +214,6 @@ window.fbAsyncInit = function() {
     ref.parentNode.insertBefore(js, ref);
 }(document, /*debug*/ false));
 </script>
-
-<!-- AddThis -->
-<script type="text/javascript" async="true" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined"></script>
 
 <!-- GA -->
 <script>

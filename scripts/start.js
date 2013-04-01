@@ -16,17 +16,24 @@
  http://creativecommons.org/licenses/by-nc-sa/2.0/
  */
 
+var colors = require("colors");
+
+// Console coloring, only the relevant parts
+console.info = console.log.bind(console, colors.cyan("i"));
+console.warn = console.log.bind(console, colors.yellow("W"));
+console.error = console.log.bind(console, colors.red("E"));
+
 // Includes
 var Server = require(__dirname+"/../server/Server.js"),
     fs = require("fs"),
     pkg = require(__dirname+"/../package.json");
 
 // Super banner :-)
-console.log(
+console.log(colors.bold(
     ".-.-.-..-..-.   .--. .---..---..---. .--. .---.\n"+
     "| | | || || |__ | \\ \\| |  | | || |-< | \\ \\ \\ \\    by dcode.io\n"+
-    "`-----'`-'`----'`-'-'`---'`-^-'`-'`-'`-'-'`---'   v "+pkg.version
-);
+    "`-----'`-'`----'`-'-'`---'`-^-'`-'`-'`-'-'`---'   v"+pkg.version+"\n"
+));
 
 // Setup
 var keys = "dev", // SSL/TLS key pair to use

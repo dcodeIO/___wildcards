@@ -1,0 +1,180 @@
+/* General layout */
+html, body { height: 100%; }
+body { color: #333; background: #eee; }
+.page { background: #fff; margin-top: 25px; box-shadow: 0 0 20px #999; border-radius: 10px; }
+.page .header { padding: 20px; background: #020202 url(../../img/header-blank.png) bottom right no-repeat; color: #fff; border-radius: 10px 10px 0 0; }
+.page .header h2 { font-size: 50px; }
+.page .header p { font-size: 20px; line-height: 1.5em; }
+.page .content { padding: 20px; }
+.page .buttons { text-align: center; padding-top: 20px; }
+.nav .nolink { padding-top: 10px; }
+a, .btn { outline: none; }
+
+/* Footer on bottom */
+#wrap { min-height: 100%; height: auto !important; height: 100%; margin-bottom: -65px; }
+.footer p { padding-top: 15px; font-size: 12px; }
+.footer, .wrap-push { text-align: center; height: 65px; }
+.footer a { color: #666; }
+.footer a:hover { color: #0088cc; }
+
+/* Online count in nav */
+#onlinecount { color: #999; }
+#onlinecount:hover { cursor: default; }
+
+/* Home */
+#home .teaser { margin-right: 400px; }
+#home .fbbox { float: right; width: 398px; height: 415px; overflow: hidden; text-align: center; }
+#home .fbbox iframe { margin: -1px; border: none; overflow: hidden; width: 400px; height: 440px; }
+#home .header { padding: 40px; background-image: url(../../img/header.png); padding-right: 250px; }
+
+/* Cards */
+#game-cards { text-align: center; }
+.cards { text-align: center; }
+.cards .card {
+    background: transparent;
+    width: 150px; height: 220px;
+    padding: 25px; margin: 10px;
+    vertical-align: top;
+    display: inline-block;
+    font-weight: bold; font-size: 15px;
+    line-height: 19px;
+    text-align: left;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    transition: all .2s ease-in-out;
+    text-decoration: none;
+    position: relative;
+}
+.cards .card-black { background-image: url(../../img/black.png); color: white; }
+.cards .card-white { background-image: url(../../img/white.png); color: black; }
+#game-cards h3 { font-size: 24px; font-weight: bold; color: #999; margin: 0; }
+.cards a, .cards a:hover { text-decoration: none; outline: 0; }
+.cards a.card-black:hover { margin-top: -10px; cursor: pointer; }
+.cards a.card-white:hover { background-image: url(../../img/white-hover.png); margin-top: -10px; cursor: pointer; }
+.cards a.selected,
+.cards a:hover.selected { background-image: url(../../img/white-selected.png); }
+#game-mycards { background: #eee; border-top: 1px solid #ddd; margin: 0 -20px -20px -20px; border-radius: 0 0 10px 10px; }
+
+/* Language select */
+#selectlanguage-list { text-align: center; }
+#selectlanguage-list a {
+    display: inline-block;
+    width: 218px;
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+}
+#selectlanguage-list a:hover {
+    text-decoration: none;
+}
+
+/* Game */
+#game .header { color: #000; }
+#game .header h2 { color: #fff; font-size: 30px; text-align: center; margin-top: -5px; }
+#game-invite { background: #eee; border-bottom: 1px solid #ddd; padding: 0 !important; }
+#game .content .buttons { padding-bottom: 30px; }
+
+/* Friend and player lists */
+#selectfriends-list a,
+#game-players { text-align: center; }
+#game-players div {
+    text-align: left;
+    background: #fff;
+    display: inline-block;
+    vertical-align: top;
+    width: 230px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+#game-players div img {
+    border-radius: 3px;
+}
+#selectfriends-list a.selected {
+    background: #57a957;
+    color: #fff;
+}
+#selectfriends-list a img,
+#game-players div img { margin-right: 10px; }
+
+/** Game players additionally */
+#game-players div {
+    position: relative; /* for absolute kick button */
+    width: 280px;
+    border: 2px solid #eee;
+    background: #ddd;
+    color: #999;
+    opacity: 0.5;
+}
+#game-players div.connected {
+    background: #eee;
+    color: #000;
+    border-color: #fff;
+    opacity: 1.0;
+}
+#game-players div.incharge {
+    background: #fff;
+    box-shadow: 0 0 10px #fff;
+}
+#game-players div img { opacity: 0.5; }
+#game-players div.connected img { opacity: 1.0; }
+#game-players a.kick { display: block; opacity: 1.0; position: absolute; right: -15px; top: -15px; width: 36px; height: 36px; background: transparent url(../../img/kick.png) center center no-repeat; }
+#game-players a.kick:hover { background-image: url(../../img/kick-hover.png); }
+#game-players span.score { font-weight: bold; color: #bbb; }
+#game .buttons {
+    padding: 10px;
+    text-align: center;
+}
+#game .buttons input {
+    cursor: pointer;
+}
+
+/** Chat */
+#game-chat {
+    position: fixed; bottom: 0; right: 20px;
+    width: 300px;
+    border: 1px solid #ddd;
+    background: #fff;
+    box-shadow: 0 0 5px #999;
+}
+#game-chat-messages { padding: 5px; border-bottom: 1px solid #ddd; height: 300px; overflow: auto; }
+#game-chat-messages .message { padding: 3px; text-indent: -25px; margin-left: 23px; }
+#game-chat-messages .message .avatar { height: 20px; width: 20px; }
+#game-chat-messages .message .name { font-weight: bold; color: #d20e0e; }
+#game-chat-messages .message .self { color: #0e90d2; }
+#game-chat-input { padding: 5px; height: 30px; background: #eee; }
+#game-chat-input input { width: 275px; }
+#game-chat a.title { padding: 5px; color: #999; display: block; background: #eee; border-bottom: 1px solid #ddd; text-decoration: none; outline: 0; }
+#game-chat a.title:hover { text-decoration: none; color: #000; }
+
+/** Game list */
+#selectgame-list td { border: 0; }
+#selectgame-list td.last { text-align: right; padding: 2px; }
+#selectgame-list h4 { padding: 50px 100px 50px 100px; text-align: center; color: #999; }
+#selectgame-list tr:nth-child(odd) { background-color:#f0f0f0; }
+#selectgame-list tr:nth-child(even) { background-color:#fff; }
+
+/** Modal footer */
+.modal-footer .text { color: #999; padding-right: 20px; }
+
+/** Responsive */
+@media (max-width: 979px) {
+    /* Remove margins */
+    .page {  width: 100%; margin-top: 0; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; box-shadow: none; border-bottom: 1px solid #ccc; }
+    .page .header { -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }
+    /* Hide collapsed nav */
+    .navbar .nav-collapse { display: none; }
+    /* Hide FB box */
+    #home .teaser { margin-right: 0; }
+    #home .fbbox { display: none; }
+}
+@media (max-width: 767px) {
+    body { padding: 0; margin: 0; }
+    #header { background: #303030; height: 65px; }
+    #header h2 { font-size: 24px; bottom: 1px; }
+    .navbar { margin: 0; }
+}

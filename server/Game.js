@@ -71,7 +71,7 @@ var Game = function(server, id, lang, host) {
      * Whether this Game is private and can only be joined when the game id is known.
      * @type {boolean}
      */
-    this.private = false;
+    this.private = true;
 
     /**
      * Wherther the game is running or not.
@@ -170,7 +170,7 @@ Game.prototype.onTick = function() {
  */
 Game.prototype.toJSON = function(includePrivate) {
     return {
-        "id": !this.private || !!includePrivate ? this.id : null,
+        "id": (!this.private || includePrivate) ? this.id : null,
         "lang": this.lang,
         "host": this.host.toJSON(),
         "private": this.private,
@@ -309,9 +309,9 @@ Game.prototype.addPlayer = function(player, create) {
     if (player.isConnected()) { // Not just a placeholder
         // Acknowledge the join
         if (create) {
-            player.socket.emit("created", this.toJSON());
+            player.socket.emit("created", this.toJSON(true));
         } else {
-            player.socket.emit("joined", this.toJSON());
+            player.socket.emit("joined", this.toJSON(true));
         }
         // Send a list of players before the join
         for (var i=0; i<this.players.length; i++) {
@@ -359,11 +359,22 @@ Game.prototype.removePlayer = function(player) {
     player = this.getPlayer(player); // Ensure PlayerInGame
     if (player === null) return false;
     player.player = null; // Mark as disconnected
-    if (player == this.playerInCharge) return false; // Cannot remove playerInCharge entirely until the round is played
+    if (player == this.playerInCharge) {
+        console.info("[Game "+this+"] Set player "+player+" to disconnected");
+        return true;
+    }
     var i = this.players.indexOf(player);
-    if (i < 0) return false;
+    if (i < 0) { // Should not happen
+        console.error("[Game "+this+"] Failed to remove player "+player+": In game but not in players list?");
+        return false;
+    }
     this.send("left", player.toJSON());
     this.players.splice(i, 1);
+    console.info("[Game "+this+"] Removed player "+player);
+    var nConnected = this.getNumConnectedPlayers();
+    if (nConnected == 0) {
+        this.server.removeGame(this);
+    }
     return true;
 };
 
@@ -390,6 +401,14 @@ Game.prototype.getNumConnectedPlayers = function() {
         if (this.players[i].isConnected()) n++;
     }
     return n;
+};
+
+/**
+ * Toggles privacy.
+ */
+Game.prototype.togglePrivate = function() {
+    this.private = !this.private;
+    this.send("gameupdate", this.toJSON(true));
 };
 
 /**
@@ -446,12 +465,13 @@ Game.prototype.onDisconnect = function(player) {
 
 /**
  * Starts the game.
+ * @return {boolean} true if started, else false
  * @throws {Error} If the language is no longer available
  */
 Game.prototype.start = function() {
-    if (this.running || this.players.length < Game.MIN_PLAYERS) return;
+    if (this.running || this.players.length < Game.MIN_PLAYERS) return false;
     if (this.cards === null || this.cards.black.length == 0 || this.cards.white.length == 0) {
-        this.init(); // Reinitialize
+        this.init(); // Reinitialize, throws
         for (var i=0; i<this.players.length; i++) {
             this.players[i].whites = [];
             this.players[i].send("cards", {
@@ -467,6 +487,7 @@ Game.prototype.start = function() {
     this.timer = -1;
     this.send("state", this.stateToJSON());
     this.nextRound();
+    return true;
 };
 
 /**
@@ -562,7 +583,7 @@ Game.prototype.nextRound = function() {
     };
     if (this.playerInCharge.isConnected()) {
         to = setTimeout(doPick.bind(this, true), Game.PICK_TIMEOUT*1000);
-        this.playerInCharge.player.socket.on("pick", doPick.bind(this, false));
+        this.playerInCharge.player.socket.once("pick", doPick.bind(this, false));
     } else {
         (doPick.bind(this))(true);
     }
@@ -665,7 +686,7 @@ Game.prototype.playRound = function() {
                 
                 if (player.isConnected()) {
                     to = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
-                    player.player.socket.on("select", doSelect.bind(this, false));
+                    player.player.socket.once("select", doSelect.bind(this, false));
                 } else {
                     (doSelect.bind(this))(true);
                 }
@@ -730,7 +751,7 @@ Game.prototype.evaluateRound = function(selections) {
     };
     to = setTimeout(doEval.bind(this, true), Game.EVALUATE_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
     if (this.playerInCharge.isConnected()) {
-        this.playerInCharge.player.socket.on("winner", doEval.bind(this, false));
+        this.playerInCharge.player.socket.once("winner", doEval.bind(this, false));
     }
 };
 

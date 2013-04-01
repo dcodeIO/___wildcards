@@ -195,7 +195,7 @@ Cards.loadAll = function(callback) {
     
     // Done callback
     function done() {
-        console.log("[Cards] Loaded "+Object.keys(all).length+" languages ("+errors+" failed)");
+        console.info("[Cards] Loaded "+Object.keys(all).length+" languages ("+errors+" failed)");
         callback(null, all);
     }
 };
