@@ -102,6 +102,12 @@ var Game = function(server, id, lang, host) {
      * @type {number}
      */
     this.timer = -1;
+
+    /**
+     * Idle timeout.
+     * @type {*}
+     */
+    this.idleTimeout = null;
 };
 
 /** ID characters */
@@ -428,7 +434,7 @@ Game.prototype.chat = function(player, message) {
 
 /**
  * Handles a disconnected Player.
- * @param {Player} player
+ * @param {Player|PlayerInGame} player
  * @return {boolean} true if successfully removed, false if not found
  */
 Game.prototype.onDisconnect = function(player) {
@@ -440,6 +446,7 @@ Game.prototype.onDisconnect = function(player) {
         this.server.removeGame(this);
         return true;
     }
+    this.updatePlayer(player);
     if (player["id"] == this.host["id"]) { // Select a new host
         for (var i=0; i<this.players.length; i++) {
             var p = this.players[i];
@@ -527,7 +534,8 @@ Game.prototype.getNextPlayer = function(player) {
  * Starts the next round.
  */
 Game.prototype.nextRound = function() {
-    if (!this.running) return;
+    if (!this.running || this.idleTimeout !== null) return;
+    
     this.timer = Game.PICK_TIMEOUT;
     this.playerInCharge = this.getNextPlayer(this.playerInCharge);
     if (this.playerInCharge == null || !this.playerInCharge.isConnected()) {
@@ -566,12 +574,12 @@ Game.prototype.nextRound = function() {
         }
     }
     if (total > 0) console.info("[Game "+this+"] Filled up "+total+" cards");
-    var to = null;
     var doPick = function(afterTimeout) {
-        if (to) { clearTimeout(to); to = null; }
+        if (this.idleTimeout !== null) { clearTimeout(this.idleTimeout); this.idleTimeout = null; }
         if (this.playerInCharge.isConnected()) {
             this.playerInCharge.player.socket.removeAllListeners("pick");
         }
+        if (!this.running) return;
         this.card = this.cards.pickBlack();
         if (this.card === null) {
             console.info("[Game "+this+"] No more black cards. Stopping... ");
@@ -582,7 +590,7 @@ Game.prototype.nextRound = function() {
         this.playRound();
     };
     if (this.playerInCharge.isConnected()) {
-        to = setTimeout(doPick.bind(this, true), Game.PICK_TIMEOUT*1000);
+        this.idleTimeout = setTimeout(doPick.bind(this, true), Game.PICK_TIMEOUT*1000);
         this.playerInCharge.player.socket.once("pick", doPick.bind(this, false));
     } else {
         (doPick.bind(this))(true);
@@ -593,7 +601,7 @@ Game.prototype.nextRound = function() {
  * Plays the current round.
  */
 Game.prototype.playRound = function() {
-    if (!this.running) return;
+    if (!this.running || this.idleTimeout !== null) return;
     if (this.playerInCharge === null || this.card === null) {
         console.warn("[Game "+this+"] Failed to play round: No player or card - ERROR");
         this.stop("noplayerorcard");
@@ -616,14 +624,14 @@ Game.prototype.playRound = function() {
             (function(player) {
                 selecting.push(player); // This player is selecting
                 player.send("nudge", "select");
-                var to = null;
                 
                 var doSelect = function(afterTimeout, which) { // Perform selection
                     if (player.isConnected()) {
                         player.player.socket.removeAllListeners("select");
                     }
                     var playerIndex = selecting.indexOf(player);
-                    if (to) { clearTimeout(to); to = null; }
+                    if (this.idleTimeout !== null) { clearTimeout(this.idleTimeout); this.idleTimeout = null; }
+                    if (!this.running) return;
                     if (playerIndex < 0) return; // (Still) selecting in this round?
                     if (this.card === null) {
                         console.error("[Game "+this+"] Player "+player+" selected but there is no black card - ERROR");
@@ -685,7 +693,7 @@ Game.prototype.playRound = function() {
                 };
                 
                 if (player.isConnected()) {
-                    to = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
+                    this.idleTimeout = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
                     player.player.socket.once("select", doSelect.bind(this, false));
                 } else {
                     (doSelect.bind(this))(true);
@@ -715,6 +723,8 @@ Array.prototype.shuffle = function () {
  * @param {Array.<{player: PlayerInGame, cards: Array.<string>}>} selections
  */
 Game.prototype.evaluateRound = function(selections) {
+    if (!this.running || this.idleTimeout != null) return;
+    
     if (this.playerInCharge === null) {
         // Should not happen
         console.error("[Game "+this+"] Failed to evaluate round: No playerInCharge");
@@ -729,12 +739,12 @@ Game.prototype.evaluateRound = function(selections) {
     console.info("[Game "+this+"] Evaluating round: playerInCharge="+this.playerInCharge+", "+this.selections.length+" selections");
     this.send("state", this.stateToJSON()); // Display selections
     this.playerInCharge.send("nudge", "evaluate");
-    var to = null;
     var doEval = function(afterTimeout, winnerIndex) {
         if (this.playerInCharge.isConnected()) {
             this.playerInCharge.player.socket.removeAllListeners("winner");
         }
-        if (to) { clearTimeout(to); to = null; }
+        if (this.idleTimeout !== null) { clearTimeout(this.idleTimeout); this.idleTimeout = null; }
+        if (!this.running) return;
         if (typeof winnerIndex == 'undefined' || winnerIndex < 0 || winnerIndex >= selections.length) {
             // Not a valid index, select one randomly
             var r; do { r = Math.random(); } while (r == 1.0);
@@ -749,7 +759,7 @@ Game.prototype.evaluateRound = function(selections) {
         this.updatePlayer(winner.player);
         setTimeout(this.nextRound.bind(this), 3000); // Show for at least 3 sec
     };
-    to = setTimeout(doEval.bind(this, true), Game.EVALUATE_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
+    this.idleTimeout = setTimeout(doEval.bind(this, true), Game.EVALUATE_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
     if (this.playerInCharge.isConnected()) {
         this.playerInCharge.player.socket.once("winner", doEval.bind(this, false));
     }
@@ -762,6 +772,10 @@ Game.prototype.evaluateRound = function(selections) {
 Game.prototype.stop = function(reason) {
     if (!this.running) return;
     this.running = false;
+    if (this.idleTimeout !== null) {
+        clearTimeout(this.idleTimeout);
+        this.idleTimeout = null;
+    }
     this.send("stopped", typeof reason != 'undefined' ? reason : null);
 };
 

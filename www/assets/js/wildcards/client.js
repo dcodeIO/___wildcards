@@ -301,7 +301,13 @@ var Client = (function(global, io, debug) {
                 log("Available languages: "+this.languages.length+" languages");
 
                 // Test available languages against the locally preferred language
-                var blang = global.navigator["userLanguage"] || global.navigator["language"];
+                var blang = null;
+                if (typeof localStorage != 'undefined' && localStorage.getItem) {
+                    blang = localStorage.getItem("lang");
+                }
+                if (!blang) {
+                    blang = global.navigator["userLanguage"] || global.navigator["language"];
+                }
                 if (blang) {
                     log("Browser wants language: "+blang);
                     var found = false;
@@ -367,6 +373,7 @@ var Client = (function(global, io, debug) {
             log("Unsetting game");
             this.game = null;
             this.card = null;
+            this.cards = [];
             this.selection = null;
             this.selections = null;
             this.players = [];
@@ -551,10 +558,10 @@ var Client = (function(global, io, debug) {
         this.socket.on("winner", function(data) {
             var player = data.player;
             var index = data.index;
-            $('#game-cards h3').text(_("%name% wins!", { "name": player["name"] }));
-            $('#selection'+index+' .card-white').addClass("selected");
+            log("S->C winner: "+data["index"]);
             player["index"] = index;
-            this.winner = player;            
+            this.winner = player;
+            this.updateCards();
         }.bind(this));
     };
 
@@ -632,6 +639,7 @@ var Client = (function(global, io, debug) {
                         } else {
                             log("Logged in to FB but not connected, skipping login.");
                             this.me = response;
+                            if (callback) callback(true);
                         }
                     } else{
                         log("FB->C noUserInfo");
@@ -1058,7 +1066,7 @@ var Client = (function(global, io, debug) {
                 // Clicking a white card picks this answer as the best
                 for (var j=0; j<sel.length; j++) {
                     var ce;
-                    if (this.me["id"] == this.playerInCharge["id"]) {
+                    if (this.me["id"] == this.playerInCharge["id"] && this.winner == null) {
                         ce = $('<a href="#" class="card card-white">'+nohtml(sel[j])+'</a>');
                         ce.on("click", function(index) {
                             log("C->S winner: "+index);
@@ -1067,6 +1075,9 @@ var Client = (function(global, io, debug) {
                         }.bind(this, i));
                     } else {
                         ce = $('<div class="card card-white">'+nohtml(sel[j])+'</div>');
+                        if (this.winner != null && i == this.winner["index"]) {
+                            ce.addClass("selected");
+                        }
                     }
                     row.append(ce);
                 }
@@ -1165,7 +1176,7 @@ var Client = (function(global, io, debug) {
                     }.bind(this));
                     
                 } else {
-                    if (this.playerInCharge["chose"]) {
+                    if (this.selections !== null && this.winner === null) {
                         btn.text(_("You chose!"));
                     } else {
                         btn.text(_("Waiting for other players..."));
@@ -1405,6 +1416,10 @@ var Client = (function(global, io, debug) {
             document.title = "___wildcards - "+_("A party game for horrible people.");
             $('#chat-input').attr("placeholder", _("Type something..."));
             this.onOnlineCount();
+            
+            if (typeof localStorage != 'undefined' && localStorage.setItem) {
+                localStorage.setItem("lang", key);
+            }
 
         }.bind(this));
     };

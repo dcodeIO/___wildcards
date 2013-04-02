@@ -1,6 +1,6 @@
 {
     "name": "wildcardsgame",
-    "version": "0.6.0",
+    "version": "0.6.1-2",
     "author": "Daniel Wirtz <dcode@dcode.io>",
     "description": "A party game for horrible people.",
     "repository": {
@@ -24,7 +24,8 @@
     "dependencies": {
         "express": ">=3.1.0",
         "socket.io": ">=0.9.13",
-        "facebook-sdk": ">=0.3.2"
+        "facebook-sdk": ">=0.3.2",
+        "colors": ">=0.6.0"
     },
     "license": "Creative Commons BY-NC-SA 2.0",
     "engines": {

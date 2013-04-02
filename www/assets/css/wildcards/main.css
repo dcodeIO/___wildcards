@@ -51,8 +51,7 @@ a, .btn { outline: none; }
 .cards a, .cards a:hover { text-decoration: none; outline: 0; }
 .cards a.card-black:hover { margin-top: -10px; cursor: pointer; }
 .cards a.card-white:hover { background-image: url(../../img/white-hover.png); margin-top: -10px; cursor: pointer; }
-.cards a.selected,
-.cards a:hover.selected { background-image: url(../../img/white-selected.png); }
+.cards .selected { background-image: url(../../img/white-selected.png); }
 #game-mycards { background: #eee; border-top: 1px solid #ddd; margin: 0 -20px -20px -20px; border-radius: 0 0 10px 10px; }
 
 /* Language select */

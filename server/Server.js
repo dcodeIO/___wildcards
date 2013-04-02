@@ -94,6 +94,12 @@ var Server = function(credentials) {
     this.languages = [];
     
     this.reload(/* failOnError */ true);
+
+    /**
+     * Connections.
+     * @type {Array}
+     */
+    this.connections = [];
     
     /**
      * Games by unique Game id.
@@ -106,12 +112,6 @@ var Server = function(credentials) {
      * @type {Object.<string,Player>}
      */
     this.players = {};
-
-    /**
-     * Number of connections.
-     * @type {number}
-     */
-    this.numConnections = 0;
 };
 
 /**
@@ -193,11 +193,16 @@ Server.prototype.start = function() {
  * @private
  */
 Server.prototype._onConnect = function(socket) {
-    this.numConnections++;
+    this.connections.push(socket);
     
     // Handle disconnect
     socket.on("disconnect", function(socket) {
-        this.numConnections--;
+        var i = this.connections.indexOf(socket);
+        if (i >= 0) {
+            this.connections.splice(i, 1);
+        } else { // Should not happen
+            console.error("[Server] A disconnected socket is not contained in known connections");
+        }
         if (typeof socket.player != 'undefined') {
             socket.player.disconnect(true);
         }
@@ -210,7 +215,7 @@ Server.prototype._onConnect = function(socket) {
     });
     
     // Tell how many are online
-    socket.emit("online", this.numConnections);
+    socket.emit("online", this.connections.length);
     
     // Handle login
     socket.on('login', function(data) {
@@ -228,12 +233,14 @@ Server.prototype._onConnect = function(socket) {
  * Updates the players online count to all connected players.
  */
 Server.prototype.updateOnline = function() {
-    for (var i=0; i<this.players.length; i++) {
-        var p = this.players[i];
-        if (p.isConnected()) {
-            p.socket.emit("online", this.numConnections);
+    for (var i=0; i<this.connections.length; i++) {
+        if (!this.connections[i]["disconnected"]) {
+            this.connections[i].emit("online", this.connections.length);
+        } else { // Should not happen
+            console.error("[Server] Found a no more connected socket that is still contained in known connections");
         }
     }
+    console.info("[Server] Updated online count: "+this.connections.length);
 };
 
 /**
@@ -274,7 +281,6 @@ Server.prototype.getCards = function(lang) {
  * @param {!Player} player
  */
 Server.prototype.onDisconnect = function(player) {
-    this.nPlayers--;
     if (player.id && this.players[player.id]) {
         if (player.game !== null) {
             player.game.onDisconnect(player);
