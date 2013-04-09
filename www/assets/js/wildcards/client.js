@@ -148,6 +148,24 @@ var Client = (function(global, io, debug) {
          * @type {{id:string, name: string, connected: boolean}}
          */
         this.winner = null;
+
+        /**
+         * Current timer value.
+         * @type {number}
+         */
+        this.timer = -1;
+        
+        // Timer countdown interval
+        setInterval(function() {
+            if (!this.running) {
+                $('#timer').text("...");
+                return;
+            }
+            if (this.timer > 0) {
+                this.timer--;
+            }
+            $('#timer').text(this.timer > 0 ? this.timer : "...");
+        }.bind(this), 1000);
     };
 
     /**

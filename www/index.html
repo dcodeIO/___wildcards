@@ -106,7 +106,10 @@
                 </div>
             </div>
             <div class="buttons">
-                <a id="game-button" class="btn btn-large btn-inverse" disabled="true" href="#" onclick="return false">Waiting for more players...</a>
+                <div class="btn-group">
+                    <span class="btn btn-large" disabled="true" style="width: 20px" id="timer">...</span>
+                    <a id="game-button" class="btn btn-large btn-inverse" disabled="true" href="#" onclick="return false">Waiting for more players...</a>
+                </div>
             </div>
             <div id="game-mycards"><!-- Updated dynamically. Contains the local player's cards. --></div>
         </div>

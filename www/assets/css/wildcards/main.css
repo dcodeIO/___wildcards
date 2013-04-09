@@ -116,8 +116,10 @@ a, .btn { outline: none; }
     opacity: 1.0;
 }
 #game-players div.incharge {
-    background: #fff;
-    box-shadow: 0 0 10px #fff;
+    background: #000 url(../..//img/incharge-bg.png) center center no-repeat;
+    border-color: #000;
+    color: #fff;
+    box-shadow: 0 0 15px #fff;
 }
 #game-players div img { opacity: 0.5; }
 #game-players div.connected img { opacity: 1.0; }

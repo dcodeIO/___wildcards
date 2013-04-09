@@ -8,15 +8,15 @@
 4 verbose node symlink C:\Program Files\nodejs\\node.exe
 5 verbose read json D:\Projekte\dcodeIO.git\wildcards\package.json
 6 verbose run-script [ 'prestart', 'start', 'poststart' ]
-7 info prestart wildcardsgame@0.6.1
-8 info start wildcardsgame@0.6.1
+7 info prestart wildcardsgame@0.6.1-2
+8 info start wildcardsgame@0.6.1-2
 9 verbose unsafe-perm in lifecycle true
 10 silly exec cmd "/c" "node scripts/start.js"
 11 silly cmd,/c,node scripts/start.js,D:\Projekte\dcodeIO.git\wildcards spawning
-12 info wildcardsgame@0.6.1 Failed to exec start script
-13 error wildcardsgame@0.6.1 start: `node scripts/start.js`
-13 error `cmd "/c" "node scripts/start.js"` failed with 1
-14 error Failed at the wildcardsgame@0.6.1 start script.
+12 info wildcardsgame@0.6.1-2 Failed to exec start script
+13 error wildcardsgame@0.6.1-2 start: `node scripts/start.js`
+13 error `cmd "/c" "node scripts/start.js"` failed with -1073741510
+14 error Failed at the wildcardsgame@0.6.1-2 start script.
 14 error This is most likely a problem with the wildcardsgame package,
 14 error not with npm itself.
 14 error Tell the author that this fails on your system:

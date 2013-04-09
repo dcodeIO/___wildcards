@@ -151,16 +151,28 @@ Game.NUM_CARDS = 10;
 Game.PICK_TIMEOUT = 10;
 
 /**
- * Select timeout in seconds.
+ * Minimum select timeout in seconds (2 players).
  * @type {number}
  */
 Game.SELECT_TIMEOUT = 30;
 
 /**
- * Evaluate timeout in seconds.
+ * Maximum select timeout in seconds (9 players).
+ * @type {number}
+ */
+Game.SELECT_TIMEOUT_MAX = 60;
+
+/**
+ * Minimum evaluate timeout in seconds (2 players).
  * @type {number}
  */
 Game.EVALUATE_TIMEOUT = 30;
+
+/**
+ * Maximum evaluate timeout in seconds (9 players).
+ * @type {number}
+ */
+Game.EVALUATE_TIMEOUT_MAX = 60;
 
 /**
  * Called once per second.
@@ -471,6 +483,18 @@ Game.prototype.onDisconnect = function(player) {
 //
 
 /**
+ * Calculates a dynamic timeout based on the number of connected players.
+ * @param {number} min Minimum timeout (2 players)
+ * @param {number} max Maximum timeout (9 players)
+ * @return {number} Actual timeout to use
+ */
+Game.prototype.calcTimeout = function(min, max) {
+    var n = this.getNumConnectedPlayers();
+    if (n <= 2) return min;
+    return parseInt(min + (max-min)*(n-2)/(Game.MAX_PLAYERS-2));
+};
+
+/**
  * Starts the game.
  * @return {boolean} true if started, else false
  * @throws {Error} If the language is no longer available
@@ -544,11 +568,11 @@ Game.prototype.nextRound = function() {
         this.stop();
         return;
     }
+    console.info("[Game "+this+"] Starting next round: playerInCharge="+this.playerInCharge+", timer="+this.timer);
     this.send("state", this.stateToJSON());
     this.card = null; // ^ show this till something new is picked
     this.selections = null;
     this.playerInCharge.send("nudge", "pick");
-    console.info("[Game "+this+"] Starting next round: playerInCharge="+this.playerInCharge);
     // Fill up cards
     var total = 0;
     for (var i=0; i<this.players.length; i++) {
@@ -607,10 +631,10 @@ Game.prototype.playRound = function() {
         this.stop("noplayerorcard");
         return;
     }
-    console.info("[Game "+this+"] Playing round with card: "+this.card);
     // this.card has already been set
     this.selections = null;
-    this.timer = Game.SELECT_TIMEOUT;
+    this.timer = this.calcTimeout(Game.SELECT_TIMEOUT, Game.SELECT_TIMEOUT_MAX);
+    console.info("[Game "+this+"] Playing round with card: "+this.card+", timer="+this.timer);
     this.send("state", this.stateToJSON());
     
     /** @type {Array.<PlayerInGame>} */
@@ -693,7 +717,7 @@ Game.prototype.playRound = function() {
                 };
                 
                 if (player.isConnected()) {
-                    this.idleTimeout = setTimeout(doSelect.bind(this, true), Game.SELECT_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
+                    this.idleTimeout = setTimeout(doSelect.bind(this, true), (this.timer+3)*1000 /* tolerate last minute decisions :-) */);
                     player.player.socket.once("select", doSelect.bind(this, false));
                 } else {
                     (doSelect.bind(this))(true);
@@ -733,10 +757,11 @@ Game.prototype.evaluateRound = function(selections) {
     }
     selections.shuffle(); // Shuffle selections
     this.selections = []; // Anonymize selections
+    this.timer = this.calcTimeout(Game.EVALUATE_TIMEOUT, Game.EVALUATE_TIMEOUT_MAX);
     for (var i=0; i<selections.length; i++) {
         this.selections[i] = selections[i]["cards"];
     }
-    console.info("[Game "+this+"] Evaluating round: playerInCharge="+this.playerInCharge+", "+this.selections.length+" selections");
+    console.info("[Game "+this+"] Evaluating round: playerInCharge="+this.playerInCharge+", "+this.selections.length+" selections, timer="+this.timer);
     this.send("state", this.stateToJSON()); // Display selections
     this.playerInCharge.send("nudge", "evaluate");
     var doEval = function(afterTimeout, winnerIndex) {
@@ -759,7 +784,7 @@ Game.prototype.evaluateRound = function(selections) {
         this.updatePlayer(winner.player);
         setTimeout(this.nextRound.bind(this), 3000); // Show for at least 3 sec
     };
-    this.idleTimeout = setTimeout(doEval.bind(this, true), Game.EVALUATE_TIMEOUT*1000+3000 /* tolerate last minute decisions :-) */);
+    this.idleTimeout = setTimeout(doEval.bind(this, true), (this.timer+3)*1000 /* tolerate last minute decisions :-) */);
     if (this.playerInCharge.isConnected()) {
         this.playerInCharge.player.socket.once("winner", doEval.bind(this, false));
     }
